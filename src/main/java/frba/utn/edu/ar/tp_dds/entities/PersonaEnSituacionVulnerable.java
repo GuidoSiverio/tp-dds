@@ -28,7 +28,6 @@ public class PersonaEnSituacionVulnerable {
   private boolean poseeMenores;
   private int cantMenores;
   @OneToMany
-  @JoinColumn(name = "persona_en_situacion_vulnerable_id")
   private List<Vianda> viandas;
 
 }

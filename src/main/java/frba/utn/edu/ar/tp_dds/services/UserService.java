@@ -1,16 +1,16 @@
 package frba.utn.edu.ar.tp_dds.services;
 
 import frba.utn.edu.ar.tp_dds.entities.User;
-import frba.utn.edu.ar.tp_dds.repositories.UserRepository;
+import frba.utn.edu.ar.tp_dds.repositories.BaseRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-  private final UserRepository userRepository;
+  private final BaseRepository<User, Long> userRepository;
 
-  public UserService(UserRepository userRepository) {
+  public UserService(BaseRepository<User, Long> userRepository) {
     this.userRepository = userRepository;
   }
 
