@@ -15,4 +15,6 @@ public class PersonaJuridica extends Colaborador{
   protected String tipo;
   protected String rubro;
 
+  public PersonaJuridica() {
+  }
 }

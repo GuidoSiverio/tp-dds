@@ -1,17 +1,16 @@
 package frba.utn.edu.ar.tp_dds.services;
 
-import frba.utn.edu.ar.tp_dds.entities.Heladera;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
-import frba.utn.edu.ar.tp_dds.repositories.BaseRepository;
+import frba.utn.edu.ar.tp_dds.repositories.ViandaRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ViandaService {
 
-  private final BaseRepository<Vianda, Long> viandaRepository;
+  private final ViandaRepository viandaRepository;
 
-  public ViandaService(BaseRepository<Vianda, Long> viandaRepository) {
+  public ViandaService(ViandaRepository viandaRepository) {
     this.viandaRepository = viandaRepository;
   }
 

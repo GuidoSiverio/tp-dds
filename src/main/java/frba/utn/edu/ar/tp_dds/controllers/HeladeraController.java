@@ -21,13 +21,13 @@ public class HeladeraController {
     this.heladeraService = heladeraService;
   }
 
-  @PostMapping(path = "/viandas", produces = "application/json", consumes = "application/json")
+  @PostMapping(path = "/heladeras", produces = "application/json", consumes = "application/json")
   public ResponseEntity<String> registerHeladera(@RequestBody Heladera heladera) {
     heladeraService.save(heladera);
     return new ResponseEntity<>("Heladera registered successfully!", HttpStatus.OK);
   }
 
-  @GetMapping(path = "/viandas", produces = "application/json", consumes = "application/json")
+  @GetMapping(path = "/heladeras", produces = "application/json", consumes = "application/json")
   public ResponseEntity<List<Heladera>> getHeladeras() {
     List<Heladera> heladeras = heladeraService.findAll();
     return new ResponseEntity<>(heladeras, HttpStatus.OK);
