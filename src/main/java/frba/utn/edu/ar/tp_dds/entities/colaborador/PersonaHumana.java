@@ -16,4 +16,6 @@ public class PersonaHumana extends Colaborador{
   protected String apellido;
   protected LocalDateTime fechaNacimiento;
 
+  public PersonaHumana() {
+  }
 }
