@@ -1,17 +1,16 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
+import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaHumana;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaJuridica;
 import frba.utn.edu.ar.tp_dds.services.ColaboradorService;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
@@ -34,6 +33,23 @@ public class ColaboradorController {
     colaboradorService.save(personaJuridica);
     return new ResponseEntity<>("PersonaJuridica registered successfully!", HttpStatus.OK);
   }
+
+  //quiero el modificar colaborador y el eliminar colaborador
+  //modificar colaborador
+
+  @PutMapping(path = "/colaboradores/{id}", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> actualizarColaborador(@PathVariable Long id, @RequestBody Colaborador colaborador) {
+    //colaboradorService.update(id, colaborador);
+    return new ResponseEntity<>("Colaborador actualizado correctamente!", HttpStatus.OK);
+  }
+  //eliminar colaborador
+
+  @DeleteMapping(path = "/colaboradores/{id}", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> eliminarColaborador(@PathVariable Long id) {
+      colaboradorService.delete(id);
+      return new ResponseEntity<>("Colaborador eliminado correctamente!", HttpStatus.OK);
+  }
+
 
   @GetMapping(path = "/colaboradores", produces = "application/json", consumes = "application/json")
   public ResponseEntity<List<Colaborador>> getColaboradores() {
