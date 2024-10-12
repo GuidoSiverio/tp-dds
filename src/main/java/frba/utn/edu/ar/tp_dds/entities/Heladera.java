@@ -33,4 +33,6 @@ public class Heladera {
     viandas.add(vianda);
   }
 
+  public Heladera() {
+  }
 }

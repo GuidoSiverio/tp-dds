@@ -22,43 +22,23 @@ public class ColaboradorService {
 
     public List<Colaborador> findAll() {
     return colaboradorRepository.findAll();
-  }
+    }
 
     public void delete(Long id) {
         colaboradorRepository.deleteById(id);
     }
 
-    public void modificarColaborador(Colaborador colaborador) {
-        //colaboradorRepository.;
+    public Optional<Colaborador> findById(Long id) {
+        return colaboradorRepository.findById(id);
     }
 
-  public Optional<Colaborador> findById(Long id) {
-      return colaboradorRepository.findById(id);
+    public void update(Long id, Colaborador colaborador) {
+        Optional<Colaborador> foundColaborador = colaboradorRepository.findById(id);
+        if (foundColaborador.isPresent()) {
+            colaborador.setId(foundColaborador.get().getId());
+            colaboradorRepository.save(colaborador);
+        } else {
+            throw new RuntimeException("Colaborador no encontrado con id: " + id);
+    }
   }
-
-//  public void update(Long id, Colaborador colaborador) {
-//    Optional<Colaborador> foundColaborador = colaboradorRepository.findById(id);
-//    if (foundColaborador.isPresent()) {
-//      Colaborador existingColaborador = foundColaborador.get();
-//      if (existingColaborador.().equals("PersonaHumana")) {
-//        // Actualiza los campos necesarios
-//        existingColaborador.setNombre(colaborador.getNombre());
-//        existingColaborador.setApellido(colaborador.getApellido());
-//        // Agrega más campos según sea necesario
-//      } else if (existingColaborador.dtype().equals("PersonaJuridica")) {
-//        // Actualiza los campos necesarios
-//        existingColaborador.setRazonSocial(colaborador.getRazonSocial());
-//        // Agrega más campos según sea necesario
-//      }
-//      // Actualiza los campos necesarios
-//      existingColaborador.setNombre(colaborador.getNombre());
-//      existingColaborador.setApellido(colaborador.getApellido());
-//      // Agrega más campos según sea necesario
-//
-//      // Guarda el registro actualizado
-//      colaboradorRepository.save(existingColaborador);
-//    } else {
-//      throw new RuntimeException("Colaborador no encontrado con id: " + id);
-//    }
-//  }
 }

@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.entities;
 
+import frba.utn.edu.ar.tp_dds.dto.ViandaDTO;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,5 +29,16 @@ public class Vianda {
   private boolean fueEntregada;
   @ManyToOne
   private Colaborador colaborador;
+  @ManyToOne
+  private Heladera heladera;
 
+  public Vianda(ViandaDTO viandaDTO) {
+    this.comida = viandaDTO.getComida();
+    this.fechaCaducidad = viandaDTO.getFechaCaducidad();
+    this.calorias = viandaDTO.getCalorias();
+    this.peso = viandaDTO.getPeso();
+  }
+
+  public Vianda() {
+  }
 }

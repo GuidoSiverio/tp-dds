@@ -37,10 +37,16 @@ public class ColaboradorController {
   //quiero el modificar colaborador y el eliminar colaborador
   //modificar colaborador
 
-  @PutMapping(path = "/colaboradores/{id}", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<String> actualizarColaborador(@PathVariable Long id, @RequestBody Colaborador colaborador) {
-    //colaboradorService.update(id, colaborador);
-    return new ResponseEntity<>("Colaborador actualizado correctamente!", HttpStatus.OK);
+  @PutMapping(path = "/colaboradores/persona-humana/{id}", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> editarPersonaHumana(@PathVariable Long id, @RequestBody PersonaHumana personaHumana) {
+    colaboradorService.update(id, personaHumana);
+    return new ResponseEntity<>("Persona humana editada correctamente!", HttpStatus.OK);
+  }
+
+  @PutMapping(path = "/colaboradores/persona-juridica/{id}", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> editarPersonaJuridica(@PathVariable Long id, @RequestBody PersonaJuridica personaJuridica) {
+    colaboradorService.update(id, personaJuridica);
+    return new ResponseEntity<>("Persona juridica editada correctamente!", HttpStatus.OK);
   }
   //eliminar colaborador
 

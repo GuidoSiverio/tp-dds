@@ -10,21 +10,20 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 public class DistribucionVianda implements Contribucion{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @OneToOne
   private Heladera origen;
-  @OneToOne
   private Heladera destino;
   private int cantidadViandas;
   private String motivoDistribucion;
   private LocalDateTime fechaDistribucion;
+
+  public DistribucionVianda() {
+  }
+
   @Override
   public void realizar() {
 

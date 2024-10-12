@@ -9,16 +9,12 @@ import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 public class ResponsableHeladera implements Contribucion{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private boolean tieneHeladera;
-  @OneToOne
   private Heladera heladera;
 
   @Override

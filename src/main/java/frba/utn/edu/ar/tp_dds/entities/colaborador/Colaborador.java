@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.entities.colaborador;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import javax.persistence.Inheritance;
@@ -12,10 +13,11 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "dtype")
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Colaborador {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String direccion;
   private String medioDeContacto;
@@ -25,4 +27,6 @@ public abstract class Colaborador {
   //private List<Contribucion> contribuciones;
 
 
+  public Colaborador() {
+  }
 }
