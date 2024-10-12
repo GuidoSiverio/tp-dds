@@ -1,4 +1,4 @@
-package frba.utn.edu.ar.tp_dds.validator.contrasenias.condiciones;
+package frba.utn.edu.ar.tp_dds.validator.passwords.condiciones;
 
 import frba.utn.edu.ar.tp_dds.exceptions.InsufficientMayusLettersException;
 

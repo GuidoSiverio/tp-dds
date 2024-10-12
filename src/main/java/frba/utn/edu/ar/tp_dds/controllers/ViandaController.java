@@ -1,6 +1,5 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
-import frba.utn.edu.ar.tp_dds.entities.Heladera;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
 import frba.utn.edu.ar.tp_dds.services.ViandaService;
 import java.util.List;
@@ -33,4 +32,5 @@ public class ViandaController {
     List<Vianda> viandas = viandaService.findAll();
     return new ResponseEntity<>(viandas, HttpStatus.OK);
   }
+
 }

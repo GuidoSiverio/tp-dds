@@ -8,21 +8,14 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 public class DonacionDinero implements Contribucion{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   private LocalDateTime fechaDonacion;
-
   private double monto;
-
   private int frecuencia;
-
   private boolean formaPeriodica;
 
   @Override

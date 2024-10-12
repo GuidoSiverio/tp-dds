@@ -4,7 +4,7 @@ import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.repositories.UserRepository;
 import java.util.Optional;
 
-import frba.utn.edu.ar.tp_dds.validator.contrasenias.ValidadorContraseniasUsuario;
+import frba.utn.edu.ar.tp_dds.validator.passwords.ValidadorContraseniasUsuario;
 import org.springframework.stereotype.Service;
 
 @Service
