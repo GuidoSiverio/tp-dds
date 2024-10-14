@@ -1,11 +1,8 @@
 package frba.utn.edu.ar.tp_dds.entities.contribucion;
 
+import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.entities.Heladera;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +11,8 @@ import lombok.Setter;
 @Setter
 public class DistribucionVianda implements Contribucion{
 
-  private Long id;
-  private Heladera origen;
-  private Heladera destino;
+  private Long origenId;
+  private Long destinoId;
   private int cantidadViandas;
   private String motivoDistribucion;
   private LocalDateTime fechaDistribucion;

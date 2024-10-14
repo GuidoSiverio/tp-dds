@@ -1,12 +1,10 @@
 package frba.utn.edu.ar.tp_dds.services;
 
-import frba.utn.edu.ar.tp_dds.dto.ViandaDTO;
+import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.entities.Heladera;
-import frba.utn.edu.ar.tp_dds.entities.Vianda;
-import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.repositories.HeladeraRepository;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +19,12 @@ public class HeladeraService {
     this.heladeraRepository = heladeraRepository;
   }
 
+  public void save(HeladeraDTO heladeraDTO) {
+    Heladera heladera = new Heladera(heladeraDTO);
+    save(heladera);
+  }
+
   public void save(Heladera heladera) {
-    heladera.setViandas(new ArrayList<>());
     heladeraRepository.save(heladera);
   }
 
@@ -32,5 +34,35 @@ public class HeladeraService {
 
   public Optional<Heladera> findById(Long id) {
     return heladeraRepository.findById(id);
+  }
+
+  public void update(Long id, HeladeraDTO heladeraDTO) {
+    heladeraRepository.findById(id).ifPresentOrElse(heladera -> {
+      if (heladeraDTO.getLongitud() != null){
+        heladera.setLongitud(heladeraDTO.getLongitud());
+      }
+      if (heladeraDTO.getLatitud() != null){
+        heladera.setLatitud(heladeraDTO.getLatitud());
+      }
+      if (heladeraDTO.getDireccion() != null){
+        heladera.setDireccion(heladeraDTO.getDireccion());
+      }
+      if (heladeraDTO.getNombre() != null){
+        heladera.setNombre(heladeraDTO.getNombre());
+      }
+      if (heladeraDTO.getCapacidad() != null){
+        heladera.setCapacidad(heladeraDTO.getCapacidad());
+      }
+      if (heladeraDTO.getFechaFuncionamiento() != null){
+        heladera.setFechaFuncionamiento(LocalDateTime.parse(heladeraDTO.getFechaFuncionamiento()));
+      }
+      save(heladera);
+    }, () -> {
+      throw new RuntimeException("Heladera no encontrada con id: " + id);
+    });
+  }
+
+  public void delete(Long id) {
+    heladeraRepository.deleteById(id);
   }
 }

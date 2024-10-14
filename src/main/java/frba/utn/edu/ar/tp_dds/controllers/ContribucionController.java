@@ -20,7 +20,7 @@ public class ContribucionController {
 
     @PostMapping(path = "/contribuciones/distribucion", produces = "application/json", consumes = "application/json")
     public ResponseEntity<String> distribuirViandas(@RequestBody DistribucionVianda distribucionVianda) {
-        contribucionService.validarEspacioHeladeras(distribucionVianda.getOrigen(), distribucionVianda.getDestino(), distribucionVianda.getCantidadViandas());
+        contribucionService.validarEspacioHeladeras(distribucionVianda.getOrigenId(), distribucionVianda.getDestinoId(), distribucionVianda.getCantidadViandas());
         contribucionService.distribuirViandas(distribucionVianda);
         return new ResponseEntity<>("Viandas distribuidas correctamente!", HttpStatus.OK);
     }

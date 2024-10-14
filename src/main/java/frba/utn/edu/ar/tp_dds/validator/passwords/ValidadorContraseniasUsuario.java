@@ -1,6 +1,6 @@
-package frba.utn.edu.ar.tp_dds.validator.contrasenias;
+package frba.utn.edu.ar.tp_dds.validator.passwords;
 
-import frba.utn.edu.ar.tp_dds.validator.contrasenias.condiciones.*;
+import frba.utn.edu.ar.tp_dds.validator.passwords.condiciones.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

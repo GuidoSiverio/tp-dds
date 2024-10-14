@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +32,16 @@ public class Heladera {
 
   public void ingresarVianda(Vianda vianda) {
     viandas.add(vianda);
+  }
+
+  public Heladera(frba.utn.edu.ar.tp_dds.dto.HeladeraDTO heladeraDTO) {
+    this.longitud = heladeraDTO.getLongitud();
+    this.latitud = heladeraDTO.getLatitud();
+    this.direccion = heladeraDTO.getDireccion();
+    this.nombre = heladeraDTO.getNombre();
+    this.capacidad = heladeraDTO.getCapacidad();
+    this.fechaFuncionamiento = LocalDateTime.parse(heladeraDTO.getFechaFuncionamiento());
+    this.viandas = new ArrayList<>();
   }
 
   public Heladera() {

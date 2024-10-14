@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
+import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
 import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaHumana;
@@ -22,40 +23,23 @@ public class ColaboradorController {
     this.colaboradorService = colaboradorService;
   }
 
-  @PostMapping(path = "/colaboradores/persona-humana", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<String> registerPersonaHumana(@RequestBody PersonaHumana personaHumana) {
-    colaboradorService.save(personaHumana);
-    return new ResponseEntity<>("PersonaHumana registered successfully!", HttpStatus.OK);
+  @PostMapping(path = "/colaboradores", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> registerColaborador(@RequestBody ColaboradorDTO colaboradorDTO) {
+    colaboradorService.save(colaboradorDTO);
+    return new ResponseEntity<>("Colaborador creado correctamente!", HttpStatus.OK);
   }
 
-  @PostMapping(path = "/colaboradores/persona-juridica", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<String> registerPersonaJuridica(@RequestBody PersonaJuridica personaJuridica) {
-    colaboradorService.save(personaJuridica);
-    return new ResponseEntity<>("PersonaJuridica registered successfully!", HttpStatus.OK);
+  @PutMapping(path = "/colaboradores/{id}", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> editarColaborador(@PathVariable Long id, @RequestBody ColaboradorDTO colaboradorDTO) {
+    colaboradorService.update(id, colaboradorDTO);
+    return new ResponseEntity<>("Colaborador editado correctamente!", HttpStatus.OK);
   }
-
-  //quiero el modificar colaborador y el eliminar colaborador
-  //modificar colaborador
-
-  @PutMapping(path = "/colaboradores/persona-humana/{id}", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<String> editarPersonaHumana(@PathVariable Long id, @RequestBody PersonaHumana personaHumana) {
-    colaboradorService.update(id, personaHumana);
-    return new ResponseEntity<>("Persona humana editada correctamente!", HttpStatus.OK);
-  }
-
-  @PutMapping(path = "/colaboradores/persona-juridica/{id}", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<String> editarPersonaJuridica(@PathVariable Long id, @RequestBody PersonaJuridica personaJuridica) {
-    colaboradorService.update(id, personaJuridica);
-    return new ResponseEntity<>("Persona juridica editada correctamente!", HttpStatus.OK);
-  }
-  //eliminar colaborador
 
   @DeleteMapping(path = "/colaboradores/{id}", produces = "application/json", consumes = "application/json")
   public ResponseEntity<String> eliminarColaborador(@PathVariable Long id) {
       colaboradorService.delete(id);
       return new ResponseEntity<>("Colaborador eliminado correctamente!", HttpStatus.OK);
   }
-
 
   @GetMapping(path = "/colaboradores", produces = "application/json", consumes = "application/json")
   public ResponseEntity<List<Colaborador>> getColaboradores() {

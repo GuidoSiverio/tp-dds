@@ -29,12 +29,10 @@ public class Vianda {
   private boolean fueEntregada;
   @ManyToOne
   private Colaborador colaborador;
-  @ManyToOne
-  private Heladera heladera;
 
   public Vianda(ViandaDTO viandaDTO) {
     this.comida = viandaDTO.getComida();
-    this.fechaCaducidad = viandaDTO.getFechaCaducidad();
+    this.fechaCaducidad = LocalDateTime.parse(viandaDTO.getFechaCaducidad());
     this.calorias = viandaDTO.getCalorias();
     this.peso = viandaDTO.getPeso();
   }

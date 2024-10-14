@@ -29,4 +29,9 @@ public abstract class Colaborador {
 
   public Colaborador() {
   }
+
+  public Colaborador(String direccion, String medioDeContacto) {
+    this.direccion = direccion;
+    this.medioDeContacto = medioDeContacto;
+  }
 }
