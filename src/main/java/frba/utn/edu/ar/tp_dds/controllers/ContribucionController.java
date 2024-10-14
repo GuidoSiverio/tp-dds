@@ -1,8 +1,7 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
+import frba.utn.edu.ar.tp_dds.dto.DistribucionViandaDTO;
 import frba.utn.edu.ar.tp_dds.dto.ViandaDTO;
-import frba.utn.edu.ar.tp_dds.entities.Vianda;
-import frba.utn.edu.ar.tp_dds.entities.contribucion.DistribucionVianda;
 import frba.utn.edu.ar.tp_dds.services.ContribucionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +18,9 @@ public class ContribucionController {
     }
 
     @PostMapping(path = "/contribuciones/distribucion", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<String> distribuirViandas(@RequestBody DistribucionVianda distribucionVianda) {
-        contribucionService.validarEspacioHeladeras(distribucionVianda.getOrigenId(), distribucionVianda.getDestinoId(), distribucionVianda.getCantidadViandas());
-        contribucionService.distribuirViandas(distribucionVianda);
+    public ResponseEntity<String> distribuirViandas(@RequestBody DistribucionViandaDTO distribucionViandaDTO) {
+        contribucionService.validarEspacioHeladeras(distribucionViandaDTO.getOrigenId(), distribucionViandaDTO.getDestinoId(), distribucionViandaDTO.getCantidadViandas());
+        contribucionService.distribuirViandas(distribucionViandaDTO);
         return new ResponseEntity<>("Viandas distribuidas correctamente!", HttpStatus.OK);
     }
 

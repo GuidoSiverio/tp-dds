@@ -1,9 +1,9 @@
 package frba.utn.edu.ar.tp_dds.services;
 
+import frba.utn.edu.ar.tp_dds.dto.DistribucionViandaDTO;
 import frba.utn.edu.ar.tp_dds.dto.ViandaDTO;
 import frba.utn.edu.ar.tp_dds.entities.Heladera;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
-import frba.utn.edu.ar.tp_dds.entities.contribucion.DistribucionVianda;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,12 +22,12 @@ public class ContribucionService {
         this.colaboradorService = colaboradorService;
     }
 
-    public void distribuirViandas(DistribucionVianda distribucionVianda){
+    public void distribuirViandas(DistribucionViandaDTO distribucionViandaDTO){
 
-        Heladera heladeraOrigen = heladeraService.findById(distribucionVianda.getOrigenId()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de origen"));
-        Heladera heladeraDestino = heladeraService.findById(distribucionVianda.getDestinoId()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de destino"));
+        Heladera heladeraOrigen = heladeraService.findById(distribucionViandaDTO.getOrigenId()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de origen"));
+        Heladera heladeraDestino = heladeraService.findById(distribucionViandaDTO.getDestinoId()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de destino"));
 
-        List<Vianda> viandasADistribuir = heladeraOrigen.getViandas().subList(0, distribucionVianda.getCantidadViandas());
+        List<Vianda> viandasADistribuir = heladeraOrigen.getViandas().subList(0, distribucionViandaDTO.getCantidadViandas());
         viandasADistribuir.forEach(vianda -> {
             heladeraOrigen.getViandas().remove(vianda);
             heladeraDestino.getViandas().add(vianda);

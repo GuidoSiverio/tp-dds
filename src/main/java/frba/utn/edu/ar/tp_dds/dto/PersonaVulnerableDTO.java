@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PersonaVulnerableDTO {
+
     private String nombre;
     private String fechaNacimiento;
     private String fechaRegistro;
