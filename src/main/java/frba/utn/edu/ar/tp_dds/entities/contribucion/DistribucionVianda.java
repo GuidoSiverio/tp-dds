@@ -1,15 +1,17 @@
 package frba.utn.edu.ar.tp_dds.entities.contribucion;
 
-import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
-import frba.utn.edu.ar.tp_dds.entities.Heladera;
-
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.DiscriminatorValue;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
-public class DistribucionVianda implements Contribucion{
+@Entity
+@DiscriminatorValue(value = "DistribucionVianda")
+public class DistribucionVianda extends Contribucion{
 
   private Long origenId;
   private Long destinoId;
@@ -20,7 +22,6 @@ public class DistribucionVianda implements Contribucion{
   public DistribucionVianda() {
   }
 
-  @Override
   public void realizar() {
 
   }

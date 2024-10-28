@@ -1,11 +1,9 @@
-package frba.utn.edu.ar.tp_dds.entities;
+package frba.utn.edu.ar.tp_dds.entities.heladera;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
+import frba.utn.edu.ar.tp_dds.entities.Vianda;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +27,16 @@ public class Heladera {
   @OneToMany
   @JoinColumn(name = "heladera_id")
   private List<Vianda> viandas;
+  private boolean activa;
+  private Double tempMinAceptable;
+  private Double tempMaxAceptable;
+  private Double ultimaTemp;
 
   public void ingresarVianda(Vianda vianda) {
     viandas.add(vianda);
   }
 
-  public Heladera(frba.utn.edu.ar.tp_dds.dto.HeladeraDTO heladeraDTO) {
+  public Heladera(HeladeraDTO heladeraDTO) {
     this.longitud = heladeraDTO.getLongitud();
     this.latitud = heladeraDTO.getLatitud();
     this.direccion = heladeraDTO.getDireccion();

@@ -1,7 +1,7 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
 import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
-import frba.utn.edu.ar.tp_dds.entities.Heladera;
+import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
 import frba.utn.edu.ar.tp_dds.services.HeladeraService;
 import java.util.List;
 import org.springframework.http.HttpStatus;

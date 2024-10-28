@@ -1,6 +1,8 @@
 package frba.utn.edu.ar.tp_dds.entities;
 
 import frba.utn.edu.ar.tp_dds.dto.PersonaVulnerableDTO;
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
+import frba.utn.edu.ar.tp_dds.entities.tarjeta.Tarjeta;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -28,6 +30,9 @@ public class PersonaVulnerable {
   @OneToMany
   @JoinColumn(name = "persona_vulnerable_id")
   private List<Vianda> viandas;
+  @OneToOne
+  private Tarjeta tarjeta;
+
 
   public PersonaVulnerable(PersonaVulnerableDTO personaVulnerableDTO) {
     this.nombre = personaVulnerableDTO.getNombre();

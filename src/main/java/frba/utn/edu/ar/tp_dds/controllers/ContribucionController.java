@@ -1,11 +1,14 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
 import frba.utn.edu.ar.tp_dds.dto.DistribucionViandaDTO;
+import frba.utn.edu.ar.tp_dds.dto.PersonaVulnerableDTO;
 import frba.utn.edu.ar.tp_dds.dto.ViandaDTO;
 import frba.utn.edu.ar.tp_dds.services.ContribucionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -29,4 +32,11 @@ public class ContribucionController {
         contribucionService.donarVianda(viandaDTO);
         return new ResponseEntity<>("Vianda donada correctamente!", HttpStatus.OK);
     }
+
+    @PostMapping(path = "/contribuciones/personas-vulnerables", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<String> registrarPersonaVulnerable(@RequestBody PersonaVulnerableDTO personaVulnerableDTO) {
+        contribucionService.registrarPersonaVulnerable(personaVulnerableDTO);
+        return new ResponseEntity<>("Persona vulnerable registrada correctamente!", HttpStatus.OK);
+    }
+
 }

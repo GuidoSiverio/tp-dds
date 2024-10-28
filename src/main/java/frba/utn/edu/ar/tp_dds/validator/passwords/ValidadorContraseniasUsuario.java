@@ -16,9 +16,9 @@ public class ValidadorContraseniasUsuario {
    * Lista de validaciones asignadas al validador.
    **/
   private static final List<Validable> validaciones = Arrays.asList(
-      new ValidadorCaracteresEspeciales(),
-      new ValidadorDeLetrasMayusculas(), new ValidadorDeLetrasMinusculas(),
-      new ValidadorDeLongitud(), new ValidadorDeNumeros(), new ValidadorWorstPasswords());
+          new ValidadorDeLongitud(), new ValidadorCaracteresEspeciales(),
+          new ValidadorDeLetrasMayusculas(), new ValidadorDeLetrasMinusculas(),
+          new ValidadorDeNumeros(), new ValidadorWorstPasswords());
 
   public ValidadorContraseniasUsuario() {
   }

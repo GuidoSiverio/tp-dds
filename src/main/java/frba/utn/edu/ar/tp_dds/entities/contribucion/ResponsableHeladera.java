@@ -1,18 +1,22 @@
 package frba.utn.edu.ar.tp_dds.entities.contribucion;
 
-import frba.utn.edu.ar.tp_dds.entities.Heladera;
+import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.DiscriminatorValue;
+
 @Getter
 @Setter
-public class ResponsableHeladera implements Contribucion{
+@Entity
+@DiscriminatorValue(value = "ResponsableHeladera")
+public class ResponsableHeladera extends Contribucion{
 
-  private Long id;
-  private boolean tieneHeladera;
+  @ManyToOne
+  @JoinColumn(name = "heladera_id")
   private Heladera heladera;
 
-  @Override
   public void realizar() {
 
   }

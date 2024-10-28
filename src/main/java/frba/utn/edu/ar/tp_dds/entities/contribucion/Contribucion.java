@@ -1,10 +1,17 @@
 package frba.utn.edu.ar.tp_dds.entities.contribucion;
 
-import org.springframework.stereotype.Component;
+import jakarta.persistence.*;
 
-@Component
-public interface Contribucion {
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
-  public void realizar();
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
+public abstract class Contribucion {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
 }

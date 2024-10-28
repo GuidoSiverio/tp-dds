@@ -1,17 +1,13 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
-import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
-import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaHumana;
-import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaJuridica;
 import frba.utn.edu.ar.tp_dds.services.ColaboradorService;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")

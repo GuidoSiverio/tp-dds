@@ -23,4 +23,11 @@ public class ViandaService {
     return viandaRepository.findAll();
   }
 
+    public Double getPesosDonados(Long id) {
+      return 1.0;
+    }
+
+  public Double getViandasDonadas(Long id) {
+    return 1.0;
+  }
 }

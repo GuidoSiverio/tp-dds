@@ -1,7 +1,7 @@
 package frba.utn.edu.ar.tp_dds.services;
 
 import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
-import frba.utn.edu.ar.tp_dds.entities.Heladera;
+import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
 import frba.utn.edu.ar.tp_dds.repositories.HeladeraRepository;
 
 import java.time.LocalDateTime;
@@ -64,5 +64,13 @@ public class HeladeraService {
 
   public void delete(Long id) {
     heladeraRepository.deleteById(id);
+  }
+
+    public Double getHeladerasActivas(Long id) {
+      return 1.0;
+    }
+
+  public Double getSumMesesActivas(Long id) {
+    return 1.0;
   }
 }
