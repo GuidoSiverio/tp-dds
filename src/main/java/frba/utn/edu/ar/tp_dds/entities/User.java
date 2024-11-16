@@ -1,9 +1,7 @@
 package frba.utn.edu.ar.tp_dds.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +16,9 @@ public class User {
 
   private String username;
   private String password;
+
+  @OneToOne
+  private Colaborador colaborador;
 
   public User() {
   }

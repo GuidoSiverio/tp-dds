@@ -1,16 +1,24 @@
 package frba.utn.edu.ar.tp_dds.services;
 
+import frba.utn.edu.ar.tp_dds.dto.ColaboradorCsvDTO;
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
+import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaHumana;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaJuridica;
 import frba.utn.edu.ar.tp_dds.repositories.ColabordaorRepository;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ColaboradorService {
@@ -21,14 +29,17 @@ public class ColaboradorService {
       this.colaboradorRepository = colaboradorRepository;
     }
 
-    public void save(ColaboradorDTO colaboradorDTO) {
+    public Colaborador save(ColaboradorDTO colaboradorDTO) {
         if (colaboradorDTO.getNombre() != null){
             Colaborador personaHumana = new PersonaHumana(colaboradorDTO);
             save(personaHumana);
+            return personaHumana;
         } else if (colaboradorDTO.getRazonSocial() != null){
             Colaborador personaJuridica = new PersonaJuridica(colaboradorDTO);
             save(personaJuridica);
+            return personaJuridica;
         }
+        throw new RuntimeException("No se pudo crear el colaborador");
     }
 
     public void save(Colaborador colaborador) {
@@ -87,4 +98,51 @@ public class ColaboradorService {
         return campo == null || campo.isEmpty();
     }
 
+    public void saveAllFromCsv(MultipartFile file) throws Exception {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            List<ColaboradorCsvDTO> colaboradorCsvDTOs = reader.lines()
+                    .skip(1) // Skip header
+                    .map(this::parseCsvLineToColaboradorCsvDTO)
+                    .toList();
+
+            List<Colaborador> existingColaboradores = new ArrayList<>();
+            List<Colaborador> newColaboradores = new ArrayList<>();
+
+            colaboradorCsvDTOs.forEach(colab -> {
+                if (findByNroDoc(colab.getNroDoc()).isPresent()) {
+                    existingColaboradores.add(agregarContribuciones(colab));
+                } else {
+                    newColaboradores.add(parseCsvLineToColaborador(colab));
+                }
+            });
+
+        }
+    }
+
+    private Optional<Object> findByNroDoc(String nroDoc) {
+        return colaboradorRepository.findByNroDoc(nroDoc);
+    }
+
+    private ColaboradorCsvDTO parseCsvLineToColaboradorCsvDTO(String line) {
+        List<String> fields = List.of(line.split(","));
+        return new ColaboradorCsvDTO(fields);
+    }
+
+
+    private Colaborador parseCsvLineToColaborador(ColaboradorCsvDTO colab) {
+        return new PersonaHumana(colab);
+    }
+
+    private Colaborador agregarContribuciones(ColaboradorCsvDTO colab) {
+        return null;
+    }
+
+    public Colaborador generate(ColaboradorDTO colaboradorDTO) {
+        if (colaboradorDTO.getNombre() != null){
+            return new PersonaHumana(colaboradorDTO);
+        } else if (colaboradorDTO.getRazonSocial() != null){
+            return new PersonaJuridica(colaboradorDTO);
+        }
+        throw new RuntimeException("No se pudo crear el colaborador");
+    }
 }

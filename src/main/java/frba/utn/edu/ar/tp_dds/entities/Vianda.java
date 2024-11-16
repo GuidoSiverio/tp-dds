@@ -27,8 +27,6 @@ public class Vianda {
   private double peso;
   private LocalDateTime fechaEntrega;
   private boolean fueEntregada;
-  @ManyToOne
-  private Colaborador colaborador;
 
   public Vianda(ViandaDTO viandaDTO) {
     this.comida = viandaDTO.getComida();

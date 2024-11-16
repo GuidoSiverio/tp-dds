@@ -13,8 +13,7 @@ import javax.persistence.DiscriminatorValue;
 @DiscriminatorValue(value = "ResponsableHeladera")
 public class ResponsableHeladera extends Contribucion{
 
-  @ManyToOne
-  @JoinColumn(name = "heladera_id")
+  @OneToOne
   private Heladera heladera;
 
   public void realizar() {

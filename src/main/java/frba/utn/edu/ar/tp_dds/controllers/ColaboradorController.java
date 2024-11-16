@@ -1,11 +1,14 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
+import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.services.ColaboradorService;
+import frba.utn.edu.ar.tp_dds.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,14 +17,17 @@ import java.util.List;
 public class ColaboradorController {
 
   private final ColaboradorService colaboradorService;
+  private final UserService userService;
 
-  public ColaboradorController(ColaboradorService colaboradorService) {
+  public ColaboradorController(ColaboradorService colaboradorService, UserService userService) {
     this.colaboradorService = colaboradorService;
+      this.userService = userService;
   }
 
   @PostMapping(path = "/colaboradores", produces = "application/json", consumes = "application/json")
   public ResponseEntity<String> registerColaborador(@RequestBody ColaboradorDTO colaboradorDTO) {
-    colaboradorService.save(colaboradorDTO);
+    Colaborador colaborador = colaboradorService.generate(colaboradorDTO);
+    userService.saveColab(colaborador, colaboradorDTO.getUsername(), colaboradorDTO.getPassword());
     return new ResponseEntity<>("Colaborador creado correctamente!", HttpStatus.OK);
   }
 
@@ -42,4 +48,15 @@ public class ColaboradorController {
     List<Colaborador> colaboradores = colaboradorService.findAll();
     return new ResponseEntity<>(colaboradores, HttpStatus.OK);
   }
+
+  @PostMapping(path = "/colaboradores/upload", consumes = "multipart/form-data")
+  public ResponseEntity<String> uploadColaboradores(@RequestParam("file") MultipartFile file) {
+    try {
+      colaboradorService.saveAllFromCsv(file);
+      return new ResponseEntity<>("Colaboradores cargados correctamente!", HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>("Error al cargar colaboradores: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 }

@@ -1,14 +1,12 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
 import frba.utn.edu.ar.tp_dds.entities.User;
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.responses.LoginResponse;
 import frba.utn.edu.ar.tp_dds.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -46,5 +44,14 @@ public class UserController {
       return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
   }
+
+  @PostMapping(path = "/check-collaborator", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Colaborador> checkColaborador(@RequestBody User user) {
+        Colaborador colaborador = userService.checkColaborador(user);
+        if (colaborador != null) {
+            return new ResponseEntity<>(colaborador, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.CONTINUE);
+    }
 
 }

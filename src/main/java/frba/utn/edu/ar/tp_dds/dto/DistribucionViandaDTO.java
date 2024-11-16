@@ -14,4 +14,5 @@ public class DistribucionViandaDTO {
     private int cantidadViandas;
     private String motivoDistribucion;
     private LocalDateTime fechaDistribucion;
+    private Long colaboradorId;
 }

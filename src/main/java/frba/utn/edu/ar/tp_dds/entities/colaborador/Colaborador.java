@@ -42,4 +42,12 @@ public abstract class Colaborador {
     this.direccion = direccion;
     this.medioDeContacto = medioDeContacto;
   }
+
+  public void add(Contribucion contribucion) {
+    this.contribuciones.add(contribucion);
+  }
+
+    public void add(PersonaVulnerable personaVulnerable) {
+        this.personasRegistradas.add(personaVulnerable);
+    }
 }
