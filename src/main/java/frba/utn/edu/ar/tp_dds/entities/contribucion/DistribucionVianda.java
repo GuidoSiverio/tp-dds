@@ -1,31 +1,37 @@
 package frba.utn.edu.ar.tp_dds.entities.contribucion;
 
-import frba.utn.edu.ar.tp_dds.entities.Heladera;
+import frba.utn.edu.ar.tp_dds.dto.DistribucionViandaDTO;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+import javax.persistence.DiscriminatorValue;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
-public class DistribucionVianda implements Contribucion{
+@Entity
+@DiscriminatorValue(value = "DistribucionVianda")
+public class DistribucionVianda extends Contribucion{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @OneToOne
-  private Heladera origen;
-  @OneToOne
-  private Heladera destino;
+  private Long origenId;
+  private Long destinoId;
   private int cantidadViandas;
   private String motivoDistribucion;
   private LocalDateTime fechaDistribucion;
-  @Override
+
+  public DistribucionVianda(DistribucionViandaDTO distribucionViandaDTO) {
+    this.origenId = distribucionViandaDTO.getOrigenId();
+    this.destinoId = distribucionViandaDTO.getDestinoId();
+    this.cantidadViandas = distribucionViandaDTO.getCantidadViandas();
+    this.motivoDistribucion = distribucionViandaDTO.getMotivoDistribucion();
+    this.fechaDistribucion = distribucionViandaDTO.getFechaDistribucion();
+  }
+
+
+  public DistribucionVianda() {
+  }
+
   public void realizar() {
 
   }

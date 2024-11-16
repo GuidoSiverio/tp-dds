@@ -1,6 +1,7 @@
 package frba.utn.edu.ar.tp_dds.services;
 
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
+import frba.utn.edu.ar.tp_dds.entities.contribucion.DonacionVianda;
 import frba.utn.edu.ar.tp_dds.repositories.ViandaRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,11 @@ public class ViandaService {
     return viandaRepository.findAll();
   }
 
+    public Double getPesosDonados(Long id) {
+      return 1.0;
+    }
 
+  public Double getViandasDonadas(Long id) {
+    return 1.0;
+  }
 }

@@ -2,28 +2,29 @@ package frba.utn.edu.ar.tp_dds.entities.contribucion;
 
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+import javax.persistence.DiscriminatorValue;
+import java.util.List;
+
 @Getter
 @Setter
-public class DonacionVianda implements Contribucion{
+@Entity
+@DiscriminatorValue(value = "DonacionVianda")
+public class DonacionVianda extends Contribucion{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @OneToMany
-  @JoinColumn(name = "donacion_vianda_id")
-  private List<Vianda> viandas;
+  @OneToOne
+  private Vianda vianda;
 
-  @Override
+  public DonacionVianda(Vianda vianda) {
+    this.vianda = vianda;
+  }
+
+  public DonacionVianda() {
+  }
+
   public void realizar() {
 
   }
