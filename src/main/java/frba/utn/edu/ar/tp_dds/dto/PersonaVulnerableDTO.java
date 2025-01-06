@@ -9,10 +9,12 @@ public class PersonaVulnerableDTO {
 
     private String nombre;
     private String fechaNacimiento;
-    private String fechaRegistro;
-    private String tipoDocumento;
-    private Long dni;
-    private String direccion;
-    private Boolean poseeMenores;
-    private Integer cantMenores;
+    private boolean situacionDeCalle;
+    private String domicilio;
+    private boolean poseeDni;
+    private String tipoDni;
+    private String numeroDni;
+    private boolean tieneMenoresACargo;
+    private String cantidadMenoresACargo;
+    private String tarjeta;
 }

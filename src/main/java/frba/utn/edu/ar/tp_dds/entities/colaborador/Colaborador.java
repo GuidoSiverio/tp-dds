@@ -3,6 +3,8 @@ package frba.utn.edu.ar.tp_dds.entities.colaborador;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import frba.utn.edu.ar.tp_dds.entities.PersonaVulnerable;
 import frba.utn.edu.ar.tp_dds.entities.contribucion.Contribucion;
+import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
+import frba.utn.edu.ar.tp_dds.entities.tarjeta.Tarjeta;
 import jakarta.persistence.*;
 
 import javax.persistence.Inheritance;
@@ -26,14 +28,18 @@ public abstract class Colaborador {
   private String direccion;
   private String medioDeContacto;
 
-  @OneToMany
-  @JoinColumn(name = "colaborador_id")
+  @OneToMany(mappedBy = "colaborador")
   private List<Contribucion> contribuciones;
 
   @OneToMany
   @JoinColumn(name = "colaborador_id")
   private List<PersonaVulnerable> personasRegistradas;
 
+  @OneToMany(mappedBy = "colaborador")
+  private List<Heladera> heladerasRegistradas;
+
+  @OneToMany(mappedBy = "colaborador")
+  private List<Tarjeta> tarjetasRepartidas;
 
   public Colaborador() {
   }

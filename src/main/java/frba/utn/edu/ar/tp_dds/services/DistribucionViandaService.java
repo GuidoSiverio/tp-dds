@@ -4,6 +4,7 @@ import frba.utn.edu.ar.tp_dds.dto.DistribucionViandaDTO;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
 import frba.utn.edu.ar.tp_dds.entities.contribucion.DistribucionVianda;
 import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
+import frba.utn.edu.ar.tp_dds.repositories.ColaboradorRepository;
 import frba.utn.edu.ar.tp_dds.repositories.DistribucionViandaRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,12 @@ import java.util.List;
 public class DistribucionViandaService {
 
     private final HeladeraService heladeraService;
-    private final ColaboradorService colaboradorService;
+    private final ColaboradorRepository colabordaorRepository;
     private final DistribucionViandaRepository distribucionViandaRepository;
 
-    public DistribucionViandaService(HeladeraService heladeraService, ColaboradorService colaboradorService, DistribucionViandaRepository distribucionViandaRepository) {
+    public DistribucionViandaService(HeladeraService heladeraService, ColaboradorRepository colabordaorRepository, DistribucionViandaRepository distribucionViandaRepository) {
         this.heladeraService = heladeraService;
-        this.colaboradorService = colaboradorService;
+        this.colabordaorRepository = colabordaorRepository;
         this.distribucionViandaRepository = distribucionViandaRepository;
     }
 
@@ -39,9 +40,8 @@ public class DistribucionViandaService {
         DistribucionVianda distribucionVianda = new DistribucionVianda(distribucionViandaDTO);
         save(distribucionVianda);
 
-        colaboradorService.findById(distribucionViandaDTO.getColaboradorId()).ifPresent(colaborador -> {
+        colabordaorRepository.findById(distribucionViandaDTO.getColaboradorId()).ifPresent(colaborador -> {
             colaborador.add(distribucionVianda);
-            colaboradorService.save(colaborador);
         });
     }
 
@@ -60,5 +60,9 @@ public class DistribucionViandaService {
 
     public void save(DistribucionVianda distribucionVianda) {
         distribucionViandaRepository.save(distribucionVianda);
+    }
+
+    public Double getViandasDistribuidas(Long id) {
+        return distribucionViandaRepository.getViandasDistribuidas(id);
     }
 }

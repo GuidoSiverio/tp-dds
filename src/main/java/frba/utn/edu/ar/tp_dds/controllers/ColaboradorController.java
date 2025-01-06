@@ -59,4 +59,9 @@ public class ColaboradorController {
     }
   }
 
+  @GetMapping(path = "/colaboradores/{id}/puntos", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<Double> getPuntosColaborador(@PathVariable Long id) {
+    Double puntos = colaboradorService.getPuntos(id);
+    return new ResponseEntity<>(puntos, HttpStatus.OK);
+  }
 }

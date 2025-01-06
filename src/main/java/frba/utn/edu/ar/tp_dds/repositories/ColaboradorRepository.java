@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ColabordaorRepository extends JpaRepository<Colaborador, Long> {
+public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> {
 
     @Query("SELECT c FROM Colaborador c WHERE c.nroDoc = :nroDoc")
     Optional<Object> findByNroDoc(String nroDoc);

@@ -17,11 +17,13 @@ public class Oferta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
+    private String rubro;
     private Double puntosNecesarios;
     private String imagen;
 
     public Oferta(OfertaDTO ofertaDTO) {
         this.nombre = ofertaDTO.getNombre();
+        this.rubro = ofertaDTO.getRubro();
         this.puntosNecesarios = ofertaDTO.getPuntosNecesarios();
         this.imagen = ofertaDTO.getImagen();
     }

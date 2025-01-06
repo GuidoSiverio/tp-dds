@@ -2,11 +2,11 @@ package frba.utn.edu.ar.tp_dds.services;
 
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorCsvDTO;
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
-import frba.utn.edu.ar.tp_dds.entities.User;
+import frba.utn.edu.ar.tp_dds.entities.Reconocimiento;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaHumana;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaJuridica;
-import frba.utn.edu.ar.tp_dds.repositories.ColabordaorRepository;
+import frba.utn.edu.ar.tp_dds.repositories.ColaboradorRepository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,19 +14,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ColaboradorService {
 
-    private final ColabordaorRepository colaboradorRepository;
+    private final ColaboradorRepository colaboradorRepository;
+    private final Reconocimiento reconocimiento;
 
-    public ColaboradorService(ColabordaorRepository colaboradorRepository) {
+    @Autowired
+    public ColaboradorService(ColaboradorRepository colaboradorRepository, Reconocimiento reconocimiento) {
       this.colaboradorRepository = colaboradorRepository;
+        this.reconocimiento = reconocimiento;
     }
 
     public Colaborador save(ColaboradorDTO colaboradorDTO) {
@@ -105,14 +107,11 @@ public class ColaboradorService {
                     .map(this::parseCsvLineToColaboradorCsvDTO)
                     .toList();
 
-            List<Colaborador> existingColaboradores = new ArrayList<>();
-            List<Colaborador> newColaboradores = new ArrayList<>();
-
             colaboradorCsvDTOs.forEach(colab -> {
                 if (findByNroDoc(colab.getNroDoc()).isPresent()) {
-                    existingColaboradores.add(agregarContribuciones(colab));
+                    agregarContribuciones(colab);
                 } else {
-                    newColaboradores.add(parseCsvLineToColaborador(colab));
+                    parseCsvLineToColaborador(colab);
                 }
             });
 
@@ -133,8 +132,16 @@ public class ColaboradorService {
         return new PersonaHumana(colab);
     }
 
-    private Colaborador agregarContribuciones(ColaboradorCsvDTO colab) {
-        return null;
+    private void agregarContribuciones(ColaboradorCsvDTO colab) {
+        switch (colab.getFormaColab()){
+            case "Donacion Dinero":
+                break;
+            case "Donacion Vianda":
+                break;
+            case "Distribucion Vianda":
+                break;
+
+        }
     }
 
     public Colaborador generate(ColaboradorDTO colaboradorDTO) {
@@ -144,5 +151,9 @@ public class ColaboradorService {
             return new PersonaJuridica(colaboradorDTO);
         }
         throw new RuntimeException("No se pudo crear el colaborador");
+    }
+
+    public Double getPuntos(Long id) {
+        return reconocimiento.getPoints(id);
     }
 }

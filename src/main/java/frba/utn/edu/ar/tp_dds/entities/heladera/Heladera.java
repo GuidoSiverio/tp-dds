@@ -2,6 +2,7 @@ package frba.utn.edu.ar.tp_dds.entities.heladera;
 
 import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -24,13 +25,19 @@ public class Heladera {
   private String nombre;
   private int capacidad;
   private LocalDateTime fechaFuncionamiento;
+
   @OneToMany
   @JoinColumn(name = "heladera_id")
   private List<Vianda> viandas;
+
   private boolean activa;
   private Double tempMinAceptable;
   private Double tempMaxAceptable;
   private Double ultimaTemp;
+
+  @ManyToOne
+  @JoinColumn(name = "colaborador_id", insertable = false, updatable = false)
+  private Colaborador colaborador;
 
   public void ingresarVianda(Vianda vianda) {
     viandas.add(vianda);
@@ -47,5 +54,9 @@ public class Heladera {
   }
 
   public Heladera() {
+  }
+
+  public boolean estaActiva() {
+    return activa;
   }
 }

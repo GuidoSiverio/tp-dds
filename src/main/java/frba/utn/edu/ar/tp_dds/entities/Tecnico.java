@@ -20,30 +20,30 @@ public class Tecnico {
     private Long id;
     private String nombre;
     private String apellido;
-    private String tipoDni;
-    private Long nroDni;
+    private String tipoDocumento;
+    private Long documento;
     private Long cuil;
-    private String medioDeContacto;
-    private String areaDeCobertura;
+    private String medioContacto;
+    private String areaCobertura;
 
     public Tecnico(TecnicoDTO tecnicoDTO) {
         this.nombre = tecnicoDTO.getNombre();
         this.apellido = tecnicoDTO.getApellido();
-        this.tipoDni = tecnicoDTO.getTipoDni();
-        this.nroDni = tecnicoDTO.getNroDni();
+        this.tipoDocumento = tecnicoDTO.getTipoDocumento();
+        this.documento = tecnicoDTO.getDocumento();
         this.cuil = tecnicoDTO.getCuil();
-        this.medioDeContacto = tecnicoDTO.getMedioDeContacto();
-        this.areaDeCobertura = tecnicoDTO.getAreaDeCobertura();
+        this.medioContacto = tecnicoDTO.getMedioContacto();
+        this.areaCobertura = tecnicoDTO.getAreaCobertura();
     }
 
     public void update(TecnicoDTO tecnicoDTO) {
         Optional.ofNullable(tecnicoDTO.getNombre()).ifPresent(this::setNombre);
         Optional.ofNullable(tecnicoDTO.getApellido()).ifPresent(this::setApellido);
-        Optional.ofNullable(tecnicoDTO.getTipoDni()).ifPresent(this::setTipoDni);
-        Optional.ofNullable(tecnicoDTO.getNroDni()).ifPresent(this::setNroDni);
+        Optional.ofNullable(tecnicoDTO.getTipoDocumento()).ifPresent(this::setTipoDocumento);
+        Optional.ofNullable(tecnicoDTO.getDocumento()).ifPresent(this::setDocumento);
         Optional.ofNullable(tecnicoDTO.getCuil()).ifPresent(this::setCuil);
-        Optional.ofNullable(tecnicoDTO.getMedioDeContacto()).ifPresent(this::setMedioDeContacto);
-        Optional.ofNullable(tecnicoDTO.getAreaDeCobertura()).ifPresent(this::setAreaDeCobertura);
+        Optional.ofNullable(tecnicoDTO.getMedioContacto()).ifPresent(this::setMedioContacto);
+        Optional.ofNullable(tecnicoDTO.getAreaCobertura()).ifPresent(this::setAreaCobertura);
     }
 
     public Tecnico() {

@@ -1,6 +1,8 @@
 package frba.utn.edu.ar.tp_dds.entities.tarjeta;
 
+import frba.utn.edu.ar.tp_dds.dto.TarjetaDTO;
 import frba.utn.edu.ar.tp_dds.entities.PersonaVulnerable;
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,18 @@ public class Tarjeta {
     @OneToMany
     @JoinColumn(name = "tarjeta_id")
     private List<RegistroUso> registroUsos;
+
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id", insertable = false, updatable = false)
+    private Colaborador colaborador;
+
+    public Tarjeta(TarjetaDTO tarjetaDTO) {
+        this.codigo = tarjetaDTO.getCodigo();
+        this.asignada = tarjetaDTO.isAsignada();
+    }
+
+    public Tarjeta() {
+    }
 
     public void registrarAsignacion() {
         this.asignada = true;

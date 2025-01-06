@@ -29,11 +29,4 @@ public class ContribucionService {
         this.personaVulnerableService = personaVulnerableService;
     }
 
-    public Double getViandasDistribuidas(Long id) {
-        return 0.0;
-    }
-
-    public Double getTarjetasRepartidas(Long id) {
-        return 0.0;
-    }
 }

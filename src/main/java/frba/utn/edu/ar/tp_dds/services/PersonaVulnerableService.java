@@ -35,6 +35,14 @@ public class PersonaVulnerableService {
 
     public void save(PersonaVulnerableDTO personaVulnerableDTO) {
         PersonaVulnerable personaVulnerable = new PersonaVulnerable(personaVulnerableDTO);
+        Tarjeta tarjetaDisponible = tarjetaService.findTarjetasDisponibles().stream()
+                .filter(t -> t.getCodigo().equals(personaVulnerableDTO.getTarjeta()))
+                .findFirst().orElseThrow(() -> new RuntimeException("No se encontro la tarjeta"));
+
+        personaVulnerable.setTarjeta(tarjetaDisponible);
+        tarjetaDisponible.registrarAsignacion();
+        tarjetaDisponible.setPersonaVulnerable(personaVulnerable);
+
         save(personaVulnerable);
     }
 

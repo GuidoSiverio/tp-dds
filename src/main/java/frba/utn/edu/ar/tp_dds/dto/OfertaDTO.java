@@ -8,6 +8,7 @@ import lombok.Setter;
 public class OfertaDTO {
 
     private String nombre;
+    private String rubro;
     private Double puntosNecesarios;
     private String imagen;
 }

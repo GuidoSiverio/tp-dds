@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class ContribucionController {
 
-    private final ContribucionService contribucionService;
     private final DistribucionViandaService distribucionViandaService;
     private final DonacionViandaService donacionViandaService;
     private final PersonaVulnerableService personaVulnerableService;
     private final RegistroOfertaService registroOfertaService;
 
-    public ContribucionController(ContribucionService contribucionService, DistribucionViandaService distribucionViandaService, DonacionViandaService donacionViandaService, PersonaVulnerableService personaVulnerableService, RegistroOfertaService registroOfertaService) {
-        this.contribucionService = contribucionService;
+    public ContribucionController(DistribucionViandaService distribucionViandaService, DonacionViandaService donacionViandaService, PersonaVulnerableService personaVulnerableService, RegistroOfertaService registroOfertaService) {
         this.distribucionViandaService = distribucionViandaService;
         this.donacionViandaService = donacionViandaService;
         this.personaVulnerableService = personaVulnerableService;
