@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> {
 
     @Query("SELECT c FROM Colaborador c WHERE c.nroDoc = :nroDoc")
-    Optional<Object> findByNroDoc(String nroDoc);
+    Optional<Colaborador> findByNroDoc(String nroDoc);
 }

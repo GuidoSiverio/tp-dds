@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Setter
 public class DistribucionViandaDTO {
 
-    private Long origenId;
-    private Long destinoId;
+    private Long heladeraOrigen;
+    private Long heladeraDestino;
     private int cantidadViandas;
     private String motivoDistribucion;
     private LocalDateTime fechaDistribucion;

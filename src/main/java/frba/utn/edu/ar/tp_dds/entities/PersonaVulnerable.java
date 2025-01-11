@@ -41,7 +41,7 @@ public class PersonaVulnerable {
     this.tipoDocumento = personaVulnerableDTO.isPoseeDni() ? personaVulnerableDTO.getTipoDni() : null;
     this.dni = personaVulnerableDTO.isPoseeDni() ? Long.valueOf(personaVulnerableDTO.getNumeroDni()) : null;
     this.direccion = personaVulnerableDTO.isSituacionDeCalle() ? null : personaVulnerableDTO.getDomicilio();
-    this.cantMenores = personaVulnerableDTO.isTieneMenoresACargo() ? Integer.parseInt(personaVulnerableDTO.getCantidadMenoresACargo()) : 0;
+    this.cantMenores = personaVulnerableDTO.isTieneMenoresACargo() ? personaVulnerableDTO.getCantidadMenoresACargo() : 0;
     this.viandas = new ArrayList<>();
   }
 

@@ -14,19 +14,19 @@ import java.util.List;
 public class DistribucionViandaService {
 
     private final HeladeraService heladeraService;
-    private final ColaboradorRepository colabordaorRepository;
+    private final ColaboradorRepository colaboradorRepository;
     private final DistribucionViandaRepository distribucionViandaRepository;
 
     public DistribucionViandaService(HeladeraService heladeraService, ColaboradorRepository colabordaorRepository, DistribucionViandaRepository distribucionViandaRepository) {
         this.heladeraService = heladeraService;
-        this.colabordaorRepository = colabordaorRepository;
+        this.colaboradorRepository = colabordaorRepository;
         this.distribucionViandaRepository = distribucionViandaRepository;
     }
 
     public void distribuirViandas(DistribucionViandaDTO distribucionViandaDTO){
 
-        Heladera heladeraOrigen = heladeraService.findById(distribucionViandaDTO.getOrigenId()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de origen"));
-        Heladera heladeraDestino = heladeraService.findById(distribucionViandaDTO.getDestinoId()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de destino"));
+        Heladera heladeraOrigen = heladeraService.findById(distribucionViandaDTO.getHeladeraOrigen()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de origen"));
+        Heladera heladeraDestino = heladeraService.findById(distribucionViandaDTO.getHeladeraDestino()).orElseThrow(() -> new RuntimeException("No se encontró la heladera de destino"));
 
         List<Vianda> viandasADistribuir = heladeraOrigen.getViandas().subList(0, distribucionViandaDTO.getCantidadViandas());
         viandasADistribuir.forEach(vianda -> {
@@ -37,11 +37,10 @@ public class DistribucionViandaService {
         heladeraService.save(heladeraOrigen);
         heladeraService.save(heladeraDestino);
 
-        DistribucionVianda distribucionVianda = new DistribucionVianda(distribucionViandaDTO);
-        save(distribucionVianda);
-
-        colabordaorRepository.findById(distribucionViandaDTO.getColaboradorId()).ifPresent(colaborador -> {
+        colaboradorRepository.findById(distribucionViandaDTO.getColaboradorId()).ifPresent(colaborador -> {
+            DistribucionVianda distribucionVianda = new DistribucionVianda(distribucionViandaDTO);
             colaborador.add(distribucionVianda);
+            save(distribucionVianda);
         });
     }
 

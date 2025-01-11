@@ -49,7 +49,7 @@ public class ColaboradorController {
     return new ResponseEntity<>(colaboradores, HttpStatus.OK);
   }
 
-  @PostMapping(path = "/colaboradores/upload", consumes = "multipart/form-data")
+  @PostMapping(path = "/colaboradores/masive", consumes = "multipart/form-data")
   public ResponseEntity<String> uploadColaboradores(@RequestParam("file") MultipartFile file) {
     try {
       colaboradorService.saveAllFromCsv(file);
@@ -64,4 +64,5 @@ public class ColaboradorController {
     Double puntos = colaboradorService.getPuntos(id);
     return new ResponseEntity<>(puntos, HttpStatus.OK);
   }
+
 }

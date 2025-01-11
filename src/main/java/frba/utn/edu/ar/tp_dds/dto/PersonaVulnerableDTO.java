@@ -15,6 +15,7 @@ public class PersonaVulnerableDTO {
     private String tipoDni;
     private String numeroDni;
     private boolean tieneMenoresACargo;
-    private String cantidadMenoresACargo;
+    private int cantidadMenoresACargo;
     private String tarjeta;
+    private Long colaboradorId;
 }

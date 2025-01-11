@@ -45,7 +45,7 @@ public class UserController {
     }
   }
 
-  @PostMapping(path = "/check-collaborator", produces = "application/json", consumes = "application/json")
+  @PostMapping(path = "/check-colaborador", produces = "application/json", consumes = "application/json")
     public ResponseEntity<Colaborador> checkColaborador(@RequestBody User user) {
         Colaborador colaborador = userService.checkColaborador(user);
         if (colaborador != null) {

@@ -29,6 +29,10 @@ public class TarjetaService {
         return tarjetaRepository.findAll().stream().filter(tarjeta -> !tarjeta.isAsignada()).toList();
     }
 
+    public List<Tarjeta> findTarjeta(String codigo) {
+        return tarjetaRepository.findTarjeta(codigo);
+    }
+
     public Double getTarjetasRepartidas(Long id) {
         return tarjetaRepository.getTarjetasRepartidas(id);
     }

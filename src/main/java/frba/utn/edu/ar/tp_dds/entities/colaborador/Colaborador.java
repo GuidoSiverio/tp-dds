@@ -12,6 +12,7 @@ import javax.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,11 +30,7 @@ public abstract class Colaborador {
   private String medioDeContacto;
 
   @OneToMany(mappedBy = "colaborador")
-  private List<Contribucion> contribuciones;
-
-  @OneToMany
-  @JoinColumn(name = "colaborador_id")
-  private List<PersonaVulnerable> personasRegistradas;
+  private List<Contribucion> contribuciones = new ArrayList<>();
 
   @OneToMany(mappedBy = "colaborador")
   private List<Heladera> heladerasRegistradas;
@@ -51,9 +48,7 @@ public abstract class Colaborador {
 
   public void add(Contribucion contribucion) {
     this.contribuciones.add(contribucion);
+    contribucion.setColaborador(this);
   }
 
-    public void add(PersonaVulnerable personaVulnerable) {
-        this.personasRegistradas.add(personaVulnerable);
-    }
 }

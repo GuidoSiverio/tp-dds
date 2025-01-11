@@ -21,8 +21,8 @@ public class DistribucionVianda extends Contribucion{
   private LocalDateTime fechaDistribucion;
 
   public DistribucionVianda(DistribucionViandaDTO distribucionViandaDTO) {
-    this.origenId = distribucionViandaDTO.getOrigenId();
-    this.destinoId = distribucionViandaDTO.getDestinoId();
+    this.origenId = distribucionViandaDTO.getHeladeraOrigen();
+    this.destinoId = distribucionViandaDTO.getHeladeraDestino();
     this.cantidadViandas = distribucionViandaDTO.getCantidadViandas();
     this.motivoDistribucion = distribucionViandaDTO.getMotivoDistribucion();
     this.fechaDistribucion = distribucionViandaDTO.getFechaDistribucion();

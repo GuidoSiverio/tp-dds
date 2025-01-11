@@ -6,12 +6,14 @@ import frba.utn.edu.ar.tp_dds.entities.Reconocimiento;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaHumana;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaJuridica;
+import frba.utn.edu.ar.tp_dds.entities.contribucion.DistribucionVianda;
+import frba.utn.edu.ar.tp_dds.entities.contribucion.DonacionDinero;
+import frba.utn.edu.ar.tp_dds.entities.contribucion.DonacionVianda;
 import frba.utn.edu.ar.tp_dds.repositories.ColaboradorRepository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +26,17 @@ public class ColaboradorService {
 
     private final ColaboradorRepository colaboradorRepository;
     private final Reconocimiento reconocimiento;
+    private final DonacionViandaService donacionViandaService;
+    private final DistribucionViandaService distribucionViandaService;
+    private final DonacionDineroService donacionDineroService;
 
     @Autowired
-    public ColaboradorService(ColaboradorRepository colaboradorRepository, Reconocimiento reconocimiento) {
+    public ColaboradorService(ColaboradorRepository colaboradorRepository, Reconocimiento reconocimiento, DonacionViandaService donacionViandaService, DistribucionViandaService distribucionViandaService, DonacionDineroService donacionDineroService) {
       this.colaboradorRepository = colaboradorRepository;
         this.reconocimiento = reconocimiento;
+        this.donacionViandaService = donacionViandaService;
+        this.distribucionViandaService = distribucionViandaService;
+        this.donacionDineroService = donacionDineroService;
     }
 
     public Colaborador save(ColaboradorDTO colaboradorDTO) {
@@ -118,7 +126,7 @@ public class ColaboradorService {
         }
     }
 
-    private Optional<Object> findByNroDoc(String nroDoc) {
+    private Optional<Colaborador> findByNroDoc(String nroDoc) {
         return colaboradorRepository.findByNroDoc(nroDoc);
     }
 
@@ -128,19 +136,31 @@ public class ColaboradorService {
     }
 
 
-    private Colaborador parseCsvLineToColaborador(ColaboradorCsvDTO colab) {
-        return new PersonaHumana(colab);
+    private void parseCsvLineToColaborador(ColaboradorCsvDTO colab) {
+        PersonaHumana personaHumana = new PersonaHumana(colab);
+        save(personaHumana);
     }
 
     private void agregarContribuciones(ColaboradorCsvDTO colab) {
-        switch (colab.getFormaColab()){
-            case "Donacion Dinero":
-                break;
-            case "Donacion Vianda":
-                break;
-            case "Distribucion Vianda":
-                break;
-
+        Colaborador colaborador = findByNroDoc(colab.getNroDoc()).get();
+        for (int i = 0; i < Integer.parseInt(colab.getCantidad()) ; i++) {
+            switch (colab.getFormaColab()){
+                case "Donacion Dinero":
+                    DonacionDinero donacionDinero = new DonacionDinero();
+                    donacionDineroService.save(donacionDinero);
+                    colaborador.add(donacionDinero);
+                    break;
+                case "Donacion Vianda":
+                    DonacionVianda donacionVianda = new DonacionVianda();
+                    donacionViandaService.save(donacionVianda);
+                    colaborador.add(donacionVianda);
+                    break;
+                case "Distribucion Vianda":
+                    DistribucionVianda distribucionVianda = new DistribucionVianda();
+                    distribucionViandaService.save(distribucionVianda);
+                    colaborador.add(distribucionVianda);
+                    break;
+            }
         }
     }
 

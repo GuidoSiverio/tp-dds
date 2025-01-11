@@ -28,15 +28,18 @@ public class DonacionViandaService {
         Vianda vianda = new Vianda(viandaDTO);
         vianda.setFechaDonacion(LocalDateTime.now());
         heladeraService.findById(viandaDTO.getHeladeraId()).ifPresent(heladera -> {
+            if (heladera.getViandas().size() == heladera.getCapacidad()) {
+                throw new RuntimeException("No hay espacio en la heladera");
+            }
             heladera.ingresarVianda(vianda);
         });
         viandaService.save(vianda);
 
         DonacionVianda donacionVianda = new DonacionVianda(vianda);
-        save(donacionVianda);
         colaboradorRepository.findById(viandaDTO.getColaboradorId()).ifPresent(colaborador -> {
             colaborador.add(donacionVianda);
         });
+        save(donacionVianda);
     }
 
     public void save(DonacionVianda donacionVianda) {

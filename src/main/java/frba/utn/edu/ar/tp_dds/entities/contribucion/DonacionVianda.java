@@ -25,7 +25,4 @@ public class DonacionVianda extends Contribucion{
   public DonacionVianda() {
   }
 
-  public void realizar() {
-
-  }
 }
