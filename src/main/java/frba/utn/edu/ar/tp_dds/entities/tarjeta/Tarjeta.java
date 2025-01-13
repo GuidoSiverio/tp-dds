@@ -17,15 +17,17 @@ public class Tarjeta {
     @Id
     private String codigo;
     private boolean asignada;
+
     @OneToOne
     private PersonaVulnerable personaVulnerable;
+
     @OneToMany
     @JoinColumn(name = "tarjeta_id")
     private List<RegistroUso> registroUsos;
 
-    @ManyToOne
-    @JoinColumn(name = "colaborador_id", insertable = false, updatable = false)
+    @OneToOne
     private Colaborador colaborador;
+
 
     public Tarjeta(TarjetaDTO tarjetaDTO) {
         this.codigo = tarjetaDTO.getCodigo();

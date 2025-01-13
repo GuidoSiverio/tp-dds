@@ -1,9 +1,11 @@
 package frba.utn.edu.ar.tp_dds.entities.colaborador;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import frba.utn.edu.ar.tp_dds.entities.PersonaVulnerable;
 import frba.utn.edu.ar.tp_dds.entities.contribucion.Contribucion;
 import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
+import frba.utn.edu.ar.tp_dds.entities.incidente.FallaTecnica;
 import frba.utn.edu.ar.tp_dds.entities.tarjeta.Tarjeta;
 import jakarta.persistence.*;
 
@@ -30,6 +32,7 @@ public abstract class Colaborador {
   private String medioDeContacto;
 
   @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
   private List<Contribucion> contribuciones = new ArrayList<>();
 
   @OneToMany(mappedBy = "colaborador")
@@ -37,6 +40,12 @@ public abstract class Colaborador {
 
   @OneToMany(mappedBy = "colaborador")
   private List<Tarjeta> tarjetasRepartidas;
+
+  @OneToOne
+  private Tarjeta tarjeta;
+
+  @OneToMany(mappedBy = "colaborador")
+  private List<FallaTecnica> fallasTecnicas;
 
   public Colaborador() {
   }
@@ -49,6 +58,11 @@ public abstract class Colaborador {
   public void add(Contribucion contribucion) {
     this.contribuciones.add(contribucion);
     contribucion.setColaborador(this);
+  }
+
+  public void add(FallaTecnica fallaTecnica){
+    this.fallasTecnicas.add(fallaTecnica);
+    fallaTecnica.setColaborador(this);
   }
 
 }

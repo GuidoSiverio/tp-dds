@@ -3,6 +3,7 @@ package frba.utn.edu.ar.tp_dds.entities.heladera;
 import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
+import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -39,8 +40,16 @@ public class Heladera {
   @JoinColumn(name = "colaborador_id", insertable = false, updatable = false)
   private Colaborador colaborador;
 
+  @OneToMany(mappedBy = "heladera", cascade = CascadeType.ALL)
+  private List<Incidente> incidentes;
+
   public void ingresarVianda(Vianda vianda) {
     viandas.add(vianda);
+  }
+
+  public void registrar(Incidente incidente){
+    this.incidentes.add(incidente);
+    incidente.setHeladera(this);
   }
 
   public Heladera(HeladeraDTO heladeraDTO) {

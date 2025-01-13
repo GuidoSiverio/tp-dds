@@ -11,4 +11,5 @@ public class OfertaDTO {
     private String rubro;
     private Double puntosNecesarios;
     private String imagen;
+    private Long colaboradorId;
 }
