@@ -2,11 +2,11 @@ package frba.utn.edu.ar.tp_dds.entities.colaborador;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import frba.utn.edu.ar.tp_dds.entities.PersonaVulnerable;
 import frba.utn.edu.ar.tp_dds.entities.contribucion.Contribucion;
 import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
-import frba.utn.edu.ar.tp_dds.entities.incidente.FallaTecnica;
+import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import frba.utn.edu.ar.tp_dds.entities.tarjeta.Tarjeta;
+import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
 import jakarta.persistence.*;
 
 import javax.persistence.Inheritance;
@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Colaborador {
+public abstract class Colaborador implements Suscriptor{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +44,8 @@ public abstract class Colaborador {
   @OneToOne
   private Tarjeta tarjeta;
 
-  @OneToMany(mappedBy = "colaborador")
-  private List<FallaTecnica> fallasTecnicas;
+  @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Incidente> fallasTecnicas;
 
   public Colaborador() {
   }
@@ -60,9 +60,23 @@ public abstract class Colaborador {
     contribucion.setColaborador(this);
   }
 
-  public void add(FallaTecnica fallaTecnica){
+  public void add(Incidente fallaTecnica){
     this.fallasTecnicas.add(fallaTecnica);
     fallaTecnica.setColaborador(this);
   }
 
+  @Override
+  public void notificar(String mensaje) {
+    System.out.println("Notificación para colaborador " + getId() + ": " + mensaje);
+  }
+
+  public void aceptarSugerencia(List<Heladera> heladerasSugeridas) {
+    // Lógica para aceptar o rechazar sugerencias
+    System.out.println("Sugerencias aceptadas: " + heladerasSugeridas);
+  }
+
+  @Override
+  public void notificar(Incidente incidente) {
+
+  }
 }

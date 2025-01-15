@@ -1,13 +1,17 @@
 package frba.utn.edu.ar.tp_dds.entities.incidente;
 
 import frba.utn.edu.ar.tp_dds.dto.IncidenteDTO;
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
 @Entity
-@DiscriminatorValue("ALERTA")
+@Getter
+@Setter
+@DiscriminatorValue("Alerta")
 public class Alerta extends Incidente {
 
     private String tipoAlerta; // Temperatura, Fraude, Falla conexión

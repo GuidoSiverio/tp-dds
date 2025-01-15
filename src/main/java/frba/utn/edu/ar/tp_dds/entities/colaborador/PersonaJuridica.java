@@ -2,6 +2,7 @@ package frba.utn.edu.ar.tp_dds.entities.colaborador;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
+import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import jakarta.persistence.Entity;
 import javax.persistence.DiscriminatorValue;
 import lombok.Getter;

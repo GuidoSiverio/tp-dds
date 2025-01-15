@@ -4,6 +4,7 @@ import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
+import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -36,6 +37,9 @@ public class Heladera {
   private Double tempMaxAceptable;
   private Double ultimaTemp;
 
+  @Transient
+  private List<Suscriptor> suscriptores = new ArrayList<>();
+
   @ManyToOne
   @JoinColumn(name = "colaborador_id", insertable = false, updatable = false)
   private Colaborador colaborador;
@@ -67,5 +71,36 @@ public class Heladera {
 
   public boolean estaActiva() {
     return activa;
+  }
+
+  public void agregarSuscripcion(Suscriptor suscriptor) {
+    suscriptores.add(suscriptor);
+  }
+
+  public void removerSuscripcion(Suscriptor suscriptor) {
+    suscriptores.remove(suscriptor);
+  }
+
+  public void notificarEvento(String mensaje) {
+    for (Suscriptor suscriptor : suscriptores) {
+      suscriptor.notificar(mensaje);
+    }
+  }
+
+  public void verificarCondicion(int viandasRestantesParaNotificar, int viandasFaltantesParaLlenar, boolean notificarDesperfectos) {
+    if (viandasRestantesParaNotificar > 0 && getViandas().size() <= viandasRestantesParaNotificar) {
+      notificarEvento("Quedan pocas viandas en la heladera: " + nombre);
+    }
+    if (viandasFaltantesParaLlenar > 0 && (getCapacidad() - getViandas().size()) <= viandasFaltantesParaLlenar) {
+      notificarEvento("Faltan pocas viandas para llenar la heladera: " + nombre);
+    }
+    if (notificarDesperfectos && heladeraSufrioDesperfecto()) {
+      notificarEvento("La heladera " + nombre + " sufrió un desperfecto.");
+    }
+  }
+
+  private boolean heladeraSufrioDesperfecto() {
+    // Implementa la lógica para verificar desperfectos.
+    return false;
   }
 }

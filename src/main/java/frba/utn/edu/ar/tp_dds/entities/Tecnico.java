@@ -1,6 +1,9 @@
 package frba.utn.edu.ar.tp_dds.entities;
 
 import frba.utn.edu.ar.tp_dds.dto.TecnicoDTO;
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
+import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
+import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +16,7 @@ import java.util.Optional;
 @Entity
 @Getter
 @Setter
-public class Tecnico {
+public class Tecnico implements Suscriptor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,5 +50,15 @@ public class Tecnico {
     }
 
     public Tecnico() {
+    }
+
+    @Override
+    public void notificar(Incidente incidente) {
+        System.out.println("Técnico notificado sobre el incidente: " + incidente.getId());
+    }
+
+    @Override
+    public void notificar(String mensaje) {
+
     }
 }

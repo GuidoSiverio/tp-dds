@@ -1,26 +1,23 @@
 package frba.utn.edu.ar.tp_dds.entities.incidente;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import frba.utn.edu.ar.tp_dds.dto.IncidenteDTO;
-import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@DiscriminatorValue("FALLA_TECNICA")
+@DiscriminatorValue("FallaTecnica")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FallaTecnica extends Incidente {
 
     private String descripcion;
     private String foto;
-
-    @ManyToOne
-    private Colaborador colaborador;
 
     public FallaTecnica(IncidenteDTO incidenteDTO) {
         super(LocalDateTime.now(), false);
@@ -28,5 +25,9 @@ public class FallaTecnica extends Incidente {
         this.foto = incidenteDTO.getFoto();
     }
 
+    public FallaTecnica() {
+    }
 }
+
+
 

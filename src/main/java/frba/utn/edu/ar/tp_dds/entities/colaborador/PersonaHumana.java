@@ -3,9 +3,14 @@ package frba.utn.edu.ar.tp_dds.entities.colaborador;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorCsvDTO;
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
+import frba.utn.edu.ar.tp_dds.entities.incidente.FallaTecnica;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
+
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,6 +44,6 @@ public class PersonaHumana extends Colaborador{
     this.mail = colab.getMail();
   }
 
-    public PersonaHumana() {
-    }
+  public PersonaHumana() {
+  }
 }
