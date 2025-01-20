@@ -26,6 +26,7 @@ public abstract class Incidente {
     private boolean estadoResuelta; // true = resuelto, false = no resuelto
 
     @ManyToOne
+    @JoinColumn(name = "heladera_id")
     private Heladera heladera;
 
     @ManyToOne

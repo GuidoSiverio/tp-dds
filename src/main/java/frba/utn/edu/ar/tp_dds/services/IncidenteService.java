@@ -44,7 +44,7 @@ public class IncidenteService {
         if (incidenteDTO.getColaboradorId() != null){
             colaboradorRepository.findById(incidenteDTO.getColaboradorId()).ifPresent(colaborador -> {
                 if (colaborador instanceof PersonaHumana personaHumana) {
-                    personaHumana.add((FallaTecnica) incidente);
+                    personaHumana.add(incidente);
                 } else {
                     throw new IllegalArgumentException("El colaborador no es una PersonaHumana");
                 }

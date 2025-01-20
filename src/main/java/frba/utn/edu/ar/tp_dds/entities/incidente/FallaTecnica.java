@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@DiscriminatorValue("FallaTecnica")
+@DiscriminatorValue("Falla")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FallaTecnica extends Incidente {
 

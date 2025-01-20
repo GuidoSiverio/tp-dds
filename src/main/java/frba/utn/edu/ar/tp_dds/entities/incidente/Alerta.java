@@ -20,4 +20,7 @@ public class Alerta extends Incidente {
         super(LocalDateTime.now(), false);
         this.tipoAlerta = incidenteDTO.getTipoAlerta();
     }
+
+    public Alerta() {
+    }
 }

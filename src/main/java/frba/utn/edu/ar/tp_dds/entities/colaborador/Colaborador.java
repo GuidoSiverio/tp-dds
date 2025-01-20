@@ -36,15 +36,18 @@ public abstract class Colaborador implements Suscriptor{
   private List<Contribucion> contribuciones = new ArrayList<>();
 
   @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
   private List<Heladera> heladerasRegistradas;
 
   @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
   private List<Tarjeta> tarjetasRepartidas;
 
   @OneToOne
   private Tarjeta tarjeta;
 
-  @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
   private List<Incidente> fallasTecnicas;
 
   public Colaborador() {
