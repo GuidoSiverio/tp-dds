@@ -17,7 +17,4 @@ public class RegistroOferta extends Contribucion {
   @OneToOne
   private Oferta oferta;
 
-  public void realizar() {
-
-  }
 }

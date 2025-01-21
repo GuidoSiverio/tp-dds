@@ -11,5 +11,7 @@ public class DonacionDineroDTO {
 
     private LocalDateTime fechaDonacion;
     private Double monto;
-    private int frecuencia;
+    private String frecuencia;
+    private boolean formaPeriodica;
+    private Long colaboradorId;
 }

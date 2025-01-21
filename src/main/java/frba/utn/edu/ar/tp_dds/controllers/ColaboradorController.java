@@ -49,7 +49,7 @@ public class ColaboradorController {
     return new ResponseEntity<>(colaboradores, HttpStatus.OK);
   }
 
-  @PostMapping(path = "/colaboradores/upload", consumes = "multipart/form-data")
+  @PostMapping(path = "/colaboradores/masive", consumes = "multipart/form-data")
   public ResponseEntity<String> uploadColaboradores(@RequestParam("file") MultipartFile file) {
     try {
       colaboradorService.saveAllFromCsv(file);
@@ -57,6 +57,12 @@ public class ColaboradorController {
     } catch (Exception e) {
       return new ResponseEntity<>("Error al cargar colaboradores: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  @GetMapping(path = "/colaboradores/{id}/puntos", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<Double> getPuntosColaborador(@PathVariable Long id) {
+    Double puntos = colaboradorService.getPuntos(id);
+    return new ResponseEntity<>(puntos, HttpStatus.OK);
   }
 
 }

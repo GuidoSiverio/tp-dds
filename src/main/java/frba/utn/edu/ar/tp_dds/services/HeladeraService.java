@@ -66,11 +66,11 @@ public class HeladeraService {
     heladeraRepository.deleteById(id);
   }
 
-    public Double getHeladerasActivas(Long id) {
-      return 1.0;
-    }
+  public Double getHeladerasActivas(Long id) {
+    return 0.00; //heladeraRepository.getHeladerasActivas(id);
+  }
 
   public Double getSumMesesActivas(Long id) {
-    return 1.0;
+    return 0.00; // heladeraRepository.getSumMesesActivas(id);
   }
 }

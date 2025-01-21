@@ -2,31 +2,41 @@ package frba.utn.edu.ar.tp_dds.services;
 
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorCsvDTO;
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
-import frba.utn.edu.ar.tp_dds.entities.User;
+import frba.utn.edu.ar.tp_dds.entities.Reconocimiento;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaHumana;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.PersonaJuridica;
-import frba.utn.edu.ar.tp_dds.repositories.ColabordaorRepository;
+import frba.utn.edu.ar.tp_dds.entities.contribucion.DistribucionVianda;
+import frba.utn.edu.ar.tp_dds.entities.contribucion.DonacionDinero;
+import frba.utn.edu.ar.tp_dds.entities.contribucion.DonacionVianda;
+import frba.utn.edu.ar.tp_dds.repositories.ColaboradorRepository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ColaboradorService {
 
-    private final ColabordaorRepository colaboradorRepository;
+    private final ColaboradorRepository colaboradorRepository;
+    private final Reconocimiento reconocimiento;
+    private final DonacionViandaService donacionViandaService;
+    private final DistribucionViandaService distribucionViandaService;
+    private final DonacionDineroService donacionDineroService;
 
-    public ColaboradorService(ColabordaorRepository colaboradorRepository) {
+    @Autowired
+    public ColaboradorService(ColaboradorRepository colaboradorRepository, Reconocimiento reconocimiento, DonacionViandaService donacionViandaService, DistribucionViandaService distribucionViandaService, DonacionDineroService donacionDineroService) {
       this.colaboradorRepository = colaboradorRepository;
+        this.reconocimiento = reconocimiento;
+        this.donacionViandaService = donacionViandaService;
+        this.distribucionViandaService = distribucionViandaService;
+        this.donacionDineroService = donacionDineroService;
     }
 
     public Colaborador save(ColaboradorDTO colaboradorDTO) {
@@ -105,21 +115,18 @@ public class ColaboradorService {
                     .map(this::parseCsvLineToColaboradorCsvDTO)
                     .toList();
 
-            List<Colaborador> existingColaboradores = new ArrayList<>();
-            List<Colaborador> newColaboradores = new ArrayList<>();
-
             colaboradorCsvDTOs.forEach(colab -> {
                 if (findByNroDoc(colab.getNroDoc()).isPresent()) {
-                    existingColaboradores.add(agregarContribuciones(colab));
+                    agregarContribuciones(colab);
                 } else {
-                    newColaboradores.add(parseCsvLineToColaborador(colab));
+                    parseCsvLineToColaborador(colab);
                 }
             });
 
         }
     }
 
-    private Optional<Object> findByNroDoc(String nroDoc) {
+    private Optional<Colaborador> findByNroDoc(String nroDoc) {
         return colaboradorRepository.findByNroDoc(nroDoc);
     }
 
@@ -129,12 +136,32 @@ public class ColaboradorService {
     }
 
 
-    private Colaborador parseCsvLineToColaborador(ColaboradorCsvDTO colab) {
-        return new PersonaHumana(colab);
+    private void parseCsvLineToColaborador(ColaboradorCsvDTO colab) {
+        PersonaHumana personaHumana = new PersonaHumana(colab);
+        save(personaHumana);
     }
 
-    private Colaborador agregarContribuciones(ColaboradorCsvDTO colab) {
-        return null;
+    private void agregarContribuciones(ColaboradorCsvDTO colab) {
+        Colaborador colaborador = findByNroDoc(colab.getNroDoc()).get();
+        for (int i = 0; i < Integer.parseInt(colab.getCantidad()) ; i++) {
+            switch (colab.getFormaColab()){
+                case "Donacion Dinero":
+                    DonacionDinero donacionDinero = new DonacionDinero();
+                    donacionDineroService.save(donacionDinero);
+                    colaborador.add(donacionDinero);
+                    break;
+                case "Donacion Vianda":
+                    DonacionVianda donacionVianda = new DonacionVianda();
+                    donacionViandaService.save(donacionVianda);
+                    colaborador.add(donacionVianda);
+                    break;
+                case "Distribucion Vianda":
+                    DistribucionVianda distribucionVianda = new DistribucionVianda();
+                    distribucionViandaService.save(distribucionVianda);
+                    colaborador.add(distribucionVianda);
+                    break;
+            }
+        }
     }
 
     public Colaborador generate(ColaboradorDTO colaboradorDTO) {
@@ -144,5 +171,9 @@ public class ColaboradorService {
             return new PersonaJuridica(colaboradorDTO);
         }
         throw new RuntimeException("No se pudo crear el colaborador");
+    }
+
+    public Double getPuntos(Long id) {
+        return reconocimiento.getPoints(id);
     }
 }

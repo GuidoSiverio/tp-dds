@@ -37,12 +37,11 @@ public class PersonaVulnerable {
   public PersonaVulnerable(PersonaVulnerableDTO personaVulnerableDTO) {
     this.nombre = personaVulnerableDTO.getNombre();
     this.fechaNacimiento = LocalDateTime.parse(personaVulnerableDTO.getFechaNacimiento());
-    this.fechaRegistro = LocalDateTime.parse(personaVulnerableDTO.getFechaRegistro());
-    this.tipoDocumento = personaVulnerableDTO.getTipoDocumento();
-    this.dni = personaVulnerableDTO.getDni();
-    this.direccion = personaVulnerableDTO.getDireccion();
-    this.poseeMenores = personaVulnerableDTO.getPoseeMenores();
-    this.cantMenores = personaVulnerableDTO.getCantMenores();
+    this.fechaRegistro = LocalDateTime.now();
+    this.tipoDocumento = personaVulnerableDTO.isPoseeDni() ? personaVulnerableDTO.getTipoDni() : null;
+    this.dni = personaVulnerableDTO.isPoseeDni() ? Long.valueOf(personaVulnerableDTO.getNumeroDni()) : null;
+    this.direccion = personaVulnerableDTO.isSituacionDeCalle() ? null : personaVulnerableDTO.getDomicilio();
+    this.cantMenores = personaVulnerableDTO.isTieneMenoresACargo() ? personaVulnerableDTO.getCantidadMenoresACargo() : 0;
     this.viandas = new ArrayList<>();
   }
 

@@ -9,10 +9,10 @@ public class TecnicoDTO {
 
     private String nombre;
     private String apellido;
-    private String tipoDni;
-    private Long nroDni;
+    private String tipoDocumento;
+    private Long documento;
     private Long cuil;
-    private String medioDeContacto;
-    private String areaDeCobertura;
+    private String medioContacto;
+    private String areaCobertura;
 
 }

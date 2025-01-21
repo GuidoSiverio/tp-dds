@@ -1,8 +1,12 @@
 package frba.utn.edu.ar.tp_dds.entities.colaborador;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import frba.utn.edu.ar.tp_dds.entities.PersonaVulnerable;
 import frba.utn.edu.ar.tp_dds.entities.contribucion.Contribucion;
+import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
+import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
+import frba.utn.edu.ar.tp_dds.entities.tarjeta.Tarjeta;
+import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
 import jakarta.persistence.*;
 
 import javax.persistence.Inheritance;
@@ -10,6 +14,7 @@ import javax.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Colaborador {
+public abstract class Colaborador implements Suscriptor{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +31,24 @@ public abstract class Colaborador {
   private String direccion;
   private String medioDeContacto;
 
-  @OneToMany
-  @JoinColumn(name = "colaborador_id")
-  private List<Contribucion> contribuciones;
+  @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
+  private List<Contribucion> contribuciones = new ArrayList<>();
 
-  @OneToMany
-  @JoinColumn(name = "colaborador_id")
-  private List<PersonaVulnerable> personasRegistradas;
+  @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
+  private List<Heladera> heladerasRegistradas;
 
+  @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
+  private List<Tarjeta> tarjetasRepartidas;
+
+  @OneToOne
+  private Tarjeta tarjeta;
+
+  @OneToMany(mappedBy = "colaborador")
+  @JsonIgnore
+  private List<Incidente> fallasTecnicas;
 
   public Colaborador() {
   }
@@ -45,9 +60,26 @@ public abstract class Colaborador {
 
   public void add(Contribucion contribucion) {
     this.contribuciones.add(contribucion);
+    contribucion.setColaborador(this);
   }
 
-    public void add(PersonaVulnerable personaVulnerable) {
-        this.personasRegistradas.add(personaVulnerable);
-    }
+  public void add(Incidente fallaTecnica){
+    this.fallasTecnicas.add(fallaTecnica);
+    fallaTecnica.setColaborador(this);
+  }
+
+  @Override
+  public void notificar(String mensaje) {
+    System.out.println("Notificación para colaborador " + getId() + ": " + mensaje);
+  }
+
+  public void aceptarSugerencia(List<Heladera> heladerasSugeridas) {
+    // Lógica para aceptar o rechazar sugerencias
+    System.out.println("Sugerencias aceptadas: " + heladerasSugeridas);
+  }
+
+  @Override
+  public void notificar(Incidente incidente) {
+
+  }
 }
