@@ -30,4 +30,5 @@ public class PersonaJuridica extends Colaborador{
 
   public PersonaJuridica() {}
 
+
 }

@@ -39,6 +39,7 @@ public class IncidenteService {
 
         heladeraRepository.findById(incidenteDTO.getHeladeraId()).ifPresent(heladera -> {
             heladera.registrar(incidente);
+            heladera.setActiva(false);
         });
 
         if (incidenteDTO.getColaboradorId() != null){

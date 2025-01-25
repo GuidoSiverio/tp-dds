@@ -38,7 +38,7 @@ public class PersonaHumana extends Colaborador{
   public PersonaHumana(ColaboradorCsvDTO colab) {
     super("", "EMAIL");
     this.tipoDoc = colab.getTipoDoc();
-    this.nroDoc = colab.getNroDoc();
+    this.nroDoc = colab.getDocumento();
     this.nombre = colab.getNombre();
     this.apellido = colab.getApellido();
     this.mail = colab.getMail();

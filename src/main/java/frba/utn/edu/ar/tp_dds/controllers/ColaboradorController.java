@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
+import frba.utn.edu.ar.tp_dds.dto.ColaboradorCsvDTO;
 import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
 import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
@@ -49,8 +50,8 @@ public class ColaboradorController {
     return new ResponseEntity<>(colaboradores, HttpStatus.OK);
   }
 
-  @PostMapping(path = "/colaboradores/masive", consumes = "multipart/form-data")
-  public ResponseEntity<String> uploadColaboradores(@RequestParam("file") MultipartFile file) {
+  @PostMapping(path = "/colaboradores/masive", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> uploadColaboradores(@RequestBody List<ColaboradorCsvDTO> file) {
     try {
       colaboradorService.saveAllFromCsv(file);
       return new ResponseEntity<>("Colaboradores cargados correctamente!", HttpStatus.OK);

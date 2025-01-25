@@ -1,6 +1,7 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
 import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
+import frba.utn.edu.ar.tp_dds.dto.IncidenteDTO;
 import frba.utn.edu.ar.tp_dds.dto.RecomendacionDTO;
 import frba.utn.edu.ar.tp_dds.dto.RecomendacionRequest;
 import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
@@ -66,5 +67,16 @@ public class HeladeraController {
     }
   }
 
+  @PostMapping(path = "/heladeras/{heladeraId}/suscribirse/{colaboradorId}", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> suscribirse(@PathVariable Long heladeraId, @PathVariable Long colaboradorId) {
+      heladeraService.suscribirse(heladeraId, colaboradorId);
+      return new ResponseEntity<>("Suscripción realizada correctamente!", HttpStatus.OK);
+  }
+
+  @PostMapping(path = "/heladeras/{id}/incidentes", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> reportarIncidente(@PathVariable Long id, @RequestBody IncidenteDTO incidenteDTO) {
+    heladeraService.reportarFalla(id, incidenteDTO);
+    return new ResponseEntity<>("Incidente reportado exitosamente!", HttpStatus.OK);
+  }
 
 }

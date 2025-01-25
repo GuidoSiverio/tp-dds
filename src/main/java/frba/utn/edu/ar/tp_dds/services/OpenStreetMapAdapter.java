@@ -20,17 +20,17 @@ public class OpenStreetMapAdapter implements RecomendacionService {
     public List<RecomendacionDTO> obtenerRecomendaciones(double latitud, double longitud, double radio)
             throws IOException {
 
-        //String query = "amenity:restaurant|amenity:cafe|amenity:fast_food|shop:kiosk|amenity:fuel";
-        String query = "cafe";
+        String query = "restaurant";
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
 
         String url = NOMINATIM_SEARCH_URL +
                 "?format=json" +
                 "&q=" + encodedQuery +
                 "&viewbox=" + getBoundingBox(latitud, longitud, radio) +
-                "&limit=50";
+                "&bounded=1" +
+                "&limit=10";
 
-        // Nominatim requiere un 'User-Agent' válido
+        // 'User-Agent' requerido por Nominatim
         String userAgent = "Tp-dds/1.0 (gsiverio@frba.utn.edu.ar)";
 
         String jsonResponse = Request.get(url)
@@ -62,8 +62,6 @@ public class OpenStreetMapAdapter implements RecomendacionService {
         double minLon = longitud - radioEnGrados;
         double maxLon = longitud + radioEnGrados;
 
-        // left, top, right, bottom
         return minLon + "," + maxLat + "," + maxLon + "," + minLat;
     }
-
 }

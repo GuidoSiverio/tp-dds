@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.entities.heladera;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Getter
@@ -41,11 +44,15 @@ public class Heladera {
   private List<Suscriptor> suscriptores = new ArrayList<>();
 
   @ManyToOne
-  @JoinColumn(name = "colaborador_id", insertable = false, updatable = false)
+  @JoinColumn(name = "colaborador_id")
   private Colaborador colaborador;
 
   @OneToMany(mappedBy = "heladera", cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<Incidente> incidentes;
+
+  @Transient
+  private AmqpTemplate amqpTemplate;
 
   public void ingresarVianda(Vianda vianda) {
     viandas.add(vianda);
@@ -73,10 +80,6 @@ public class Heladera {
     return activa;
   }
 
-  public void agregarSuscripcion(Suscriptor suscriptor) {
-    suscriptores.add(suscriptor);
-  }
-
   public void removerSuscripcion(Suscriptor suscriptor) {
     suscriptores.remove(suscriptor);
   }
@@ -102,5 +105,23 @@ public class Heladera {
   private boolean heladeraSufrioDesperfecto() {
     // Implementa la lógica para verificar desperfectos.
     return false;
+  }
+
+  public void enviarTemperatura(double temperatura) {
+    String mensaje = "Temperatura actual: " + temperatura;
+    amqpTemplate.convertAndSend("temperaturas", mensaje);
+  }
+
+  public void enviarAlerta(String mensaje) {
+    amqpTemplate.convertAndSend("alertas", mensaje);
+  }
+
+  public void autorizarApertura(Long colaboradorId) {
+    String mensaje = "Autorización para apertura por colaborador: " + colaboradorId;
+    amqpTemplate.convertAndSend("autorizaciones", mensaje);
+  }
+
+  public void add(Suscriptor suscriptor){
+    suscriptores.add(suscriptor);
   }
 }

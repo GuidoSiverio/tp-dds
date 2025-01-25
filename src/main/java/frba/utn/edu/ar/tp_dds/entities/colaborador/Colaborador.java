@@ -13,6 +13,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,14 +69,24 @@ public abstract class Colaborador implements Suscriptor{
     fallaTecnica.setColaborador(this);
   }
 
-  @Override
-  public void notificar(String mensaje) {
-    System.out.println("Notificación para colaborador " + getId() + ": " + mensaje);
+  public void add(Heladera heladera){
+    this.heladerasRegistradas.add(heladera);
+    heladera.setColaborador(this);
   }
 
   public void aceptarSugerencia(List<Heladera> heladerasSugeridas) {
     // Lógica para aceptar o rechazar sugerencias
     System.out.println("Sugerencias aceptadas: " + heladerasSugeridas);
+  }
+
+  @RabbitListener(queues = "autorizaciones")
+  public void recibirAutorizacion(String mensaje) {
+    System.out.println("Colaborador notificado: " + mensaje);
+  }
+
+  @Override
+  public void notificar(String mensaje) {
+    System.out.println("Notificación para colaborador " + getId() + ": " + mensaje);
   }
 
   @Override

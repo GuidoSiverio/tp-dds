@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import java.util.Optional;
 
@@ -52,13 +53,19 @@ public class Tecnico implements Suscriptor {
     public Tecnico() {
     }
 
+    @RabbitListener(queues = "alertas")
+    public void recibirAlerta(String mensaje) {
+        System.out.println("Técnico notificado: " + mensaje);
+    }
+
+    @Override
+    public void notificar(String mensaje) {
+        System.out.println("Notificación técnica: " + mensaje);
+    }
+
     @Override
     public void notificar(Incidente incidente) {
         System.out.println("Técnico notificado sobre el incidente: " + incidente.getId());
     }
 
-    @Override
-    public void notificar(String mensaje) {
-
-    }
 }

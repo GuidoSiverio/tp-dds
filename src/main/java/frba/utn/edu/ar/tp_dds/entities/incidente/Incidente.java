@@ -7,6 +7,8 @@ import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ public abstract class Incidente {
     @Transient
     private List<Suscriptor> suscriptores = new ArrayList<>();
 
+    @Transient
+    private AmqpTemplate amqpTemplate;
+
     public Incidente(LocalDateTime fechaHora, boolean estado) {
         this.fechaHora = fechaHora;
         this.estadoResuelta = estado;
@@ -61,4 +66,9 @@ public abstract class Incidente {
             suscriptor.notificar(this);
         }
     }
+
+    public void registrarIncidente(String descripcion) {
+        amqpTemplate.convertAndSend("alertas", descripcion);
+    }
+
 }
