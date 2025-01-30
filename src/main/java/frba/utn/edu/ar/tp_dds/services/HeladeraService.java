@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import frba.utn.edu.ar.tp_dds.repositories.IncidenteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,9 @@ public class HeladeraService {
   private final ColaboradorRepository colaboradorRepository;
   private final IncidenteService incidenteService;
   private final IncidenteRepository incidenteRepository;
+
+  @Autowired
+  private SuscriptorService suscriptorService;
 
   public HeladeraService(HeladeraRepository heladeraRepository, ColaboradorRepository colaboradorRepository, IncidenteService incidenteService, IncidenteRepository incidenteRepository) {
     this.heladeraRepository = heladeraRepository;
@@ -91,8 +95,7 @@ public class HeladeraService {
   public void suscribirse(Long id, Long colaboradorId) {
     heladeraRepository.findById(id).ifPresent(heladera -> {
       colaboradorRepository.findById(colaboradorId).ifPresent(colaborador -> {
-        heladera.add(colaborador);
-        heladeraRepository.save(heladera);
+        suscriptorService.agregarSuscriptor(heladera.getId(), colaborador);
       });
     });
   }
@@ -103,7 +106,7 @@ public class HeladeraService {
     heladeraRepository.findById(incidenteDTO.getHeladeraId()).ifPresent(heladera -> {
       heladera.registrar(incidente);
       heladera.setActiva(false);
-      heladera.notificarEvento("Se reportó un incidente en la heladera " + heladera.getNombre());
+      heladera.notificarEvento(suscriptorService,"Se reportó un incidente en la heladera " + heladera.getNombre());
     });
 
     if (incidenteDTO.getColaboradorId() != null){

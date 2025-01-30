@@ -54,4 +54,10 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.CONTINUE);
     }
 
+    @GetMapping(path = "/users", produces = "application/json")
+    public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
+        Optional<User> user = userService.findByUsername(username);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
+
 }

@@ -20,6 +20,7 @@ public class UserService {
   }
 
   public void save(User user) {
+    user.setRol("COLABORADOR");
     userRepository.save(user);
   }
 
@@ -40,5 +41,9 @@ public class UserService {
       user.setColaborador(colaborador);
       save(user);
     });
+  }
+
+  public Optional<User> findByUsername(String username) {
+    return userRepository.findByUsername(username);
   }
 }

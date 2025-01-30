@@ -7,6 +7,8 @@ import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
 import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import frba.utn.edu.ar.tp_dds.entities.tarjeta.Tarjeta;
 import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
+import frba.utn.edu.ar.tp_dds.services.EmailService;
+import frba.utn.edu.ar.tp_dds.services.WhatsAppService;
 import jakarta.persistence.*;
 
 import javax.persistence.Inheritance;
@@ -14,6 +16,7 @@ import javax.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +88,14 @@ public abstract class Colaborador implements Suscriptor{
   }
 
   @Override
-  public void notificar(String mensaje) {
+  public void notificar(EmailService emailService, WhatsAppService whatsAppService, String mensaje) {
+    if (medioDeContacto.equals("EMAIL")) {
+      emailService.enviarEmail("11", direccion, mensaje);
+    } else if (medioDeContacto.equals("whatsapp")) {
+      whatsAppService.enviarWhatsApp(direccion, mensaje);
+    } else {
+      System.out.println("No se pudo notificar al colaborador " + getId() + " por medio de contacto " + medioDeContacto);
+    }
     System.out.println("Notificación para colaborador " + getId() + ": " + mensaje);
   }
 
@@ -94,3 +104,6 @@ public abstract class Colaborador implements Suscriptor{
 
   }
 }
+
+
+

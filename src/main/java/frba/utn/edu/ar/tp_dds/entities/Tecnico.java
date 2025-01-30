@@ -4,10 +4,9 @@ import frba.utn.edu.ar.tp_dds.dto.TecnicoDTO;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import frba.utn.edu.ar.tp_dds.services.EmailService;
+import frba.utn.edu.ar.tp_dds.services.WhatsAppService;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -59,7 +58,7 @@ public class Tecnico implements Suscriptor {
     }
 
     @Override
-    public void notificar(String mensaje) {
+    public void notificar(EmailService emailService, WhatsAppService whatsAppService, String mensaje) {
         System.out.println("Notificación técnica: " + mensaje);
     }
 
@@ -69,3 +68,5 @@ public class Tecnico implements Suscriptor {
     }
 
 }
+
+
