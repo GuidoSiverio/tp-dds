@@ -11,7 +11,7 @@ import java.io.IOException;
 @Service
 public class EmailService {
 
-    private static final String SENDGRID_API_KEY = "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";
+    private static final String SENDGRID_API_KEY = "secret";
 
     public void enviarEmail(String to, String subject, String body) {
         Email from = new Email("sistemaalimentario@gmail.com");
