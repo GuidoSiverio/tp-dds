@@ -15,7 +15,7 @@ public class EmailService {
 
     public void enviarEmail(String to, String subject, String body) {
         Email from = new Email("sistemaalimentario@gmail.com");
-        Email recipient = new Email("gsiverio@frba.utn.edu.ar");
+        Email recipient = new Email(to);
         Content content = new Content("text/plain", body);
         Mail mail = new Mail(from, subject, recipient, content);
 

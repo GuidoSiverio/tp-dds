@@ -14,8 +14,18 @@ public class ConfiguracionRabbitMQ {
     }
 
     @Bean
-    public Queue alertasQueue() {
-        return new Queue("alertas", false);
+    public Queue temperaturaQueue() {
+        return new Queue("alerta.temperatura", false);
+    }
+
+    @Bean
+    public Queue fraudeQueue() {
+        return new Queue("alerta.fraude", false);
+    }
+
+    @Bean
+    public Queue fallaConexionQueue() {
+        return new Queue("alerta.conexion", false);
     }
 
     @Bean

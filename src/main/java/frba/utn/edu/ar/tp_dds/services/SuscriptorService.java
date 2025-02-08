@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.services;
 
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,10 @@ public class SuscriptorService {
     }
 
     public void eliminarSuscriptor(Long heladeraId, Suscriptor suscriptor) {
-        suscriptoresPorHeladera.getOrDefault(heladeraId, new ArrayList<>()).remove(suscriptor);
+        suscriptoresPorHeladera.get(heladeraId).remove(suscriptor);
+        if (suscriptoresPorHeladera.get(heladeraId).isEmpty()) {
+            suscriptoresPorHeladera.remove(heladeraId);
+        }
     }
 
     public List<Suscriptor> obtenerSuscriptores(Long heladeraId) {
@@ -33,6 +37,18 @@ public class SuscriptorService {
         for (Suscriptor suscriptor : suscriptores) {
             suscriptor.notificar(emailService, whatsappService, mensaje);
         }
+    }
+
+    public List<Long> getSuscripciones(Long colaboradorId) {
+        List<Long> suscripciones = new ArrayList<>();
+
+        suscriptoresPorHeladera.forEach((heladeraId, suscriptores) -> {
+            if (suscriptores.stream().anyMatch(suscriptor ->
+                    suscriptor instanceof Colaborador && ((Colaborador) suscriptor).getId().equals(colaboradorId))) {
+                suscripciones.add(heladeraId);
+            }
+        });
+        return suscripciones;
     }
 }
 

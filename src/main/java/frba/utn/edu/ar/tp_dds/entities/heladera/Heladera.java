@@ -11,10 +11,13 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 @Entity
 @Getter
@@ -58,6 +61,7 @@ public class Heladera {
   public void registrar(Incidente incidente){
     this.incidentes.add(incidente);
     incidente.setHeladera(this);
+    this.setActiva(false);
   }
 
   public Heladera(HeladeraDTO heladeraDTO) {
@@ -66,6 +70,8 @@ public class Heladera {
     this.direccion = heladeraDTO.getDireccion();
     this.nombre = heladeraDTO.getNombre();
     this.capacidad = heladeraDTO.getCapacidad();
+    this.tempMinAceptable = Double.parseDouble(heladeraDTO.getTempMinAceptable());
+    this.tempMaxAceptable = Double.parseDouble(heladeraDTO.getTempMaxAceptable());
     this.fechaFuncionamiento = LocalDateTime.parse(heladeraDTO.getFechaFuncionamiento());
     this.viandas = new ArrayList<>();
   }
@@ -100,10 +106,19 @@ public class Heladera {
     return false;
   }
 
-  public void enviarTemperatura(double temperatura) {
-    String mensaje = "Temperatura actual: " + temperatura;
-    amqpTemplate.convertAndSend("temperaturas", mensaje);
-  }
+//  @Scheduled(cron = "0 */5 * * * *")
+//  public void enviarTemperatura() {
+//    Random random = new Random();
+//    int delta = 5;
+//    double minExtremo = this.tempMinAceptable - delta;
+//    double maxExtremo = this.tempMaxAceptable + delta;
+//    double temperatura = random.nextDouble((maxExtremo - minExtremo) + minExtremo);
+//    System.out.println("🌡 Temperatura de la heladera " + this.nombre + ": " + temperatura + "°C");
+//    String mensaje = "Heladera " + this.nombre + " - Temperatura: " + temperatura + "°C";
+//
+//    System.out.println("📡 Enviando mensaje: " + mensaje);
+//    amqpTemplate.convertAndSend("temperaturas", mensaje);
+//  }
 
   public void enviarAlerta(String mensaje) {
     amqpTemplate.convertAndSend("alertas", mensaje);

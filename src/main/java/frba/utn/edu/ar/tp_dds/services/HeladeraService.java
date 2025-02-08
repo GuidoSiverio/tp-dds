@@ -120,4 +120,20 @@ public class HeladeraService {
     }
     incidenteRepository.save(incidente);
   }
+
+  public void notificarIncidente(Long id, Incidente incidente, String mensaje) {
+    heladeraRepository.findById(id).ifPresent(heladera -> {
+      heladera.registrar(incidente);
+      heladera.setActiva(false);
+      heladera.notificarEvento(suscriptorService, mensaje);
+    });
+  }
+
+  public void desuscribirse(Long heladeraId, Long colaboradorId) {
+    heladeraRepository.findById(heladeraId).ifPresent(heladera -> {
+      colaboradorRepository.findById(colaboradorId).ifPresent(colaborador -> {
+        suscriptorService.eliminarSuscriptor(heladera.getId(), colaborador);
+      });
+    });
+  }
 }

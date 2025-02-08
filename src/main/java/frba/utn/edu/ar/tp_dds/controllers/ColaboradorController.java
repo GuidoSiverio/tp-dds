@@ -5,6 +5,7 @@ import frba.utn.edu.ar.tp_dds.dto.ColaboradorDTO;
 import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.services.ColaboradorService;
+import frba.utn.edu.ar.tp_dds.services.SuscriptorService;
 import frba.utn.edu.ar.tp_dds.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +20,19 @@ public class ColaboradorController {
 
   private final ColaboradorService colaboradorService;
   private final UserService userService;
+  private final SuscriptorService suscriptorService;
 
-  public ColaboradorController(ColaboradorService colaboradorService, UserService userService) {
+  public ColaboradorController(ColaboradorService colaboradorService, UserService userService, SuscriptorService suscriptorService) {
     this.colaboradorService = colaboradorService;
       this.userService = userService;
+      this.suscriptorService = suscriptorService;
   }
 
   @PostMapping(path = "/colaboradores", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<String> registerColaborador(@RequestBody ColaboradorDTO colaboradorDTO) {
-    Colaborador colaborador = colaboradorService.generate(colaboradorDTO);
+  public ResponseEntity<Colaborador> registerColaborador(@RequestBody ColaboradorDTO colaboradorDTO) {
+    Colaborador colaborador = colaboradorService.save(colaboradorDTO);
     userService.saveColab(colaborador, colaboradorDTO.getUsername(), colaboradorDTO.getPassword());
-    return new ResponseEntity<>("Colaborador creado correctamente!", HttpStatus.OK);
+    return new ResponseEntity<>(colaborador, HttpStatus.OK);
   }
 
   @PutMapping(path = "/colaboradores/{id}", produces = "application/json", consumes = "application/json")
@@ -66,4 +69,9 @@ public class ColaboradorController {
     return new ResponseEntity<>(puntos, HttpStatus.OK);
   }
 
+  @GetMapping(path = "/suscripciones/{id}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<List<Long>> getSuscripciones(@PathVariable Long id) {
+        List<Long> heladerasIds = suscriptorService.getSuscripciones(id);
+        return new ResponseEntity<>(heladerasIds, HttpStatus.OK);
+    }
 }

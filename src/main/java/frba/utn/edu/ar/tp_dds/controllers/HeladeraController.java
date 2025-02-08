@@ -73,6 +73,12 @@ public class HeladeraController {
       return new ResponseEntity<>("Suscripción realizada correctamente!", HttpStatus.OK);
   }
 
+  @PostMapping(path = "/heladeras/{heladeraId}/desuscribirse/{colaboradorId}", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<String> desuscribirse(@PathVariable Long heladeraId, @PathVariable Long colaboradorId) {
+    heladeraService.desuscribirse(heladeraId, colaboradorId);
+    return new ResponseEntity<>("Suscripción realizada correctamente!", HttpStatus.OK);
+  }
+
   @PostMapping(path = "/heladeras/{id}/incidentes", produces = "application/json", consumes = "application/json")
   public ResponseEntity<String> reportarIncidente(@PathVariable Long id, @RequestBody IncidenteDTO incidenteDTO) {
     heladeraService.reportarFalla(id, incidenteDTO);

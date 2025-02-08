@@ -39,7 +39,6 @@ public class IncidenteService {
 
         heladeraRepository.findById(incidenteDTO.getHeladeraId()).ifPresent(heladera -> {
             heladera.registrar(incidente);
-            heladera.setActiva(false);
         });
 
         if (incidenteDTO.getColaboradorId() != null){
@@ -54,7 +53,8 @@ public class IncidenteService {
         save(incidente);
     }
 
-    private void save(Incidente incidente) {
+    public void save(Incidente incidente) {
         incidenteRepository.save(incidente);
     }
+
 }

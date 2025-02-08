@@ -29,13 +29,13 @@ public class TecnicoController {
     }
 
     @PutMapping(path = "/tecnicos/{id}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<String> editHeladera(@PathVariable Long id, @RequestBody TecnicoDTO tecnicoDTO) {
+    public ResponseEntity<String> editTecnico(@PathVariable Long id, @RequestBody TecnicoDTO tecnicoDTO) {
         tecnicoService.update(id, tecnicoDTO);
         return new ResponseEntity<>("Tecnico editado correctamente!", HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/tecnicos/{id}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<String> deleteHeladera(@PathVariable Long id) {
+    public ResponseEntity<String> deleteTecnico(@PathVariable Long id) {
         tecnicoService.delete(id);
         return new ResponseEntity<>("Tecnico eliminado correctamente!", HttpStatus.OK);
     }
