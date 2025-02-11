@@ -13,6 +13,10 @@ public class TecnicoDTO {
     private Long documento;
     private Long cuil;
     private String medioContacto;
+    private String numero;
+    private String email;
     private String areaCobertura;
+    private String user;
+    private String password;
 
 }

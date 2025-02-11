@@ -5,12 +5,14 @@ import frba.utn.edu.ar.tp_dds.dto.IncidenteDTO;
 import frba.utn.edu.ar.tp_dds.dto.RecomendacionDTO;
 import frba.utn.edu.ar.tp_dds.dto.RecomendacionRequest;
 import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
+import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import frba.utn.edu.ar.tp_dds.services.HeladeraService;
 
 import java.io.IOException;
 import java.util.List;
 
 import frba.utn.edu.ar.tp_dds.services.RecomendacionService;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -84,5 +86,11 @@ public class HeladeraController {
     heladeraService.reportarFalla(id, incidenteDTO);
     return new ResponseEntity<>("Incidente reportado exitosamente!", HttpStatus.OK);
   }
+
+  @GetMapping(path = "/heladeras/{id}/incidentes", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<List<Incidente>> getIncidentes(@PathVariable Long id) {
+        List<Incidente> incidentes = heladeraService.getIncidentes(id);
+        return new ResponseEntity<>(incidentes, HttpStatus.OK);
+    }
 
 }

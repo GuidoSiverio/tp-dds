@@ -15,12 +15,12 @@ public class RecomendacionDonacionService {
     @Autowired
     private HeladeraRepository heladeraRepository;
 
-    public List<Heladera> recomendarDonaciones(double latUsuario, double lonUsuario) {
+    public List<Heladera> recomendarDonaciones(String lonUsuario, String latUsuario) {
         List<Heladera> heladeras = heladeraRepository.findAll().stream().filter(Heladera::isActiva).toList();
 
         return heladeras.stream()
                 .filter(this::tieneEspacioDisponible)
-                .sorted(Comparator.comparingDouble(h -> calcularDistancia(latUsuario, lonUsuario, Double.parseDouble(h.getLatitud()), Double.parseDouble(h.getLongitud()))))
+                .sorted(Comparator.comparingDouble(h -> calcularDistancia(Double.parseDouble(latUsuario), Double.parseDouble(lonUsuario), Double.parseDouble(h.getLatitud()), Double.parseDouble(h.getLongitud()))))
                 .collect(Collectors.toList());
     }
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class WhatsAppService {
 
     private static final String ACCOUNT_SID = "ACd2d80910e014a8155e4d0490ea1022b4";
-    private static final String AUTH_TOKEN = "73bee6a10c83335347be3ac0a1a1a7c7";
+    private static final String AUTH_TOKEN = "53d5b27c5bba7e6d40f49782273ef220";
     private static final String FROM_WHATSAPP_NUMBER = "whatsapp:+14155238886"; // Twilio Sandbox
 
     public WhatsAppService() {

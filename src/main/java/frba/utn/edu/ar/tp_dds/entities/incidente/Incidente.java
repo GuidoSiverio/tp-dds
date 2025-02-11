@@ -41,9 +41,6 @@ public abstract class Incidente {
     @Transient
     private List<Suscriptor> suscriptores = new ArrayList<>();
 
-    @Transient
-    private AmqpTemplate amqpTemplate;
-
     public Incidente(LocalDateTime fechaHora, boolean estado) {
         this.fechaHora = fechaHora;
         this.estadoResuelta = estado;
@@ -55,20 +52,6 @@ public abstract class Incidente {
     public void add(Visita visita){
         this.visitas.add(visita);
         visita.setIncidente(this);
-    }
-
-    public void agregarObservador(Suscriptor suscriptor) {
-        suscriptores.add(suscriptor);
-    }
-
-    public void notificar() {
-        for (Suscriptor suscriptor : suscriptores) {
-            suscriptor.notificar(this);
-        }
-    }
-
-    public void registrarIncidente(String descripcion) {
-        amqpTemplate.convertAndSend("alertas", descripcion);
     }
 
 }

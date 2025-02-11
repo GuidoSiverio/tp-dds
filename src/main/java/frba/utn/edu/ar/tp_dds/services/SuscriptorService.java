@@ -2,6 +2,7 @@ package frba.utn.edu.ar.tp_dds.services;
 
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
+import frba.utn.edu.ar.tp_dds.repositories.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -16,6 +17,12 @@ public class SuscriptorService {
 
     @Autowired
     private WhatsAppService whatsappService;
+
+    private final TecnicoRepository tecnicoRepository;
+
+    public SuscriptorService(TecnicoRepository tecnicoRepository) {
+        this.tecnicoRepository = tecnicoRepository;
+    }
 
     public void agregarSuscriptor(Long heladeraId, Suscriptor suscriptor) {
         suscriptoresPorHeladera.computeIfAbsent(heladeraId, k -> new ArrayList<>()).add(suscriptor);
@@ -37,6 +44,9 @@ public class SuscriptorService {
         for (Suscriptor suscriptor : suscriptores) {
             suscriptor.notificar(emailService, whatsappService, mensaje);
         }
+        for (Suscriptor tecnico : tecnicoRepository.findAll()) {
+            tecnico.notificar(emailService, whatsappService, mensaje);
+        }
     }
 
     public List<Long> getSuscripciones(Long colaboradorId) {
@@ -50,5 +60,6 @@ public class SuscriptorService {
         });
         return suscripciones;
     }
+
 }
 

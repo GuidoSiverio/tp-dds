@@ -51,9 +51,6 @@ public class Heladera {
   @JsonIgnore
   private List<Incidente> incidentes;
 
-  @Transient
-  private AmqpTemplate amqpTemplate;
-
   public void ingresarVianda(Vianda vianda) {
     viandas.add(vianda);
   }
@@ -74,6 +71,7 @@ public class Heladera {
     this.tempMaxAceptable = Double.parseDouble(heladeraDTO.getTempMaxAceptable());
     this.fechaFuncionamiento = LocalDateTime.parse(heladeraDTO.getFechaFuncionamiento());
     this.viandas = new ArrayList<>();
+    this.activa = true;
   }
 
   public Heladera() {
@@ -101,10 +99,6 @@ public class Heladera {
 //    }
 //  }
 
-  private boolean heladeraSufrioDesperfecto() {
-    // Implementa la lógica para verificar desperfectos.
-    return false;
-  }
 
 //  @Scheduled(cron = "0 */5 * * * *")
 //  public void enviarTemperatura() {
@@ -120,13 +114,5 @@ public class Heladera {
 //    amqpTemplate.convertAndSend("temperaturas", mensaje);
 //  }
 
-  public void enviarAlerta(String mensaje) {
-    amqpTemplate.convertAndSend("alertas", mensaje);
-  }
-
-  public void autorizarApertura(Long colaboradorId) {
-    String mensaje = "Autorización para apertura por colaborador: " + colaboradorId;
-    amqpTemplate.convertAndSend("autorizaciones", mensaje);
-  }
 
 }

@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.services;
 
+import frba.utn.edu.ar.tp_dds.entities.Tecnico;
 import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.repositories.UserRepository;
@@ -19,9 +20,9 @@ public class UserService {
     this.validadorContraseniasUsuario = validadorContraseniasUsuario;
   }
 
-  public void save(User user) {
+  public void saveColaborador(User user) {
     user.setRol("COLABORADOR");
-    userRepository.save(user);
+    save(user);
   }
 
   public Optional<User> findByUsernameAndPassword(String username, String password) {
@@ -39,11 +40,23 @@ public class UserService {
   public void saveColab(Colaborador colaborador, String username, String password) {
     findByUsernameAndPassword(username, password).ifPresent(user -> {
       user.setColaborador(colaborador);
-      save(user);
+      saveColaborador(user);
     });
   }
 
   public Optional<User> findByUsername(String username) {
     return userRepository.findByUsername(username);
+  }
+
+  public void save(User user) {
+    userRepository.save(user);
+  }
+
+  public Tecnico checkTecnico(User user) {
+    return findByUsernameAndPassword(user.getUsername(), user.getPassword()).get().getTecnico();
+  }
+
+  public void deleteByTecnicoId(Long tecnicoId) {
+    userRepository.deleteByTecnicoId(tecnicoId);
   }
 }

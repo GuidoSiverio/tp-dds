@@ -2,6 +2,8 @@ package frba.utn.edu.ar.tp_dds.services;
 
 import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
 import frba.utn.edu.ar.tp_dds.repositories.HeladeraRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@Getter
+@Setter
 public class RabbitProducerService {
 
     private final RabbitTemplate rabbitTemplate;
@@ -34,63 +38,61 @@ public class RabbitProducerService {
         rabbitTemplate.convertAndSend(queue, message + "|" + id.toString());
     }
 
-    //@Scheduled(cron = "0 */5 * * * *")
-    //@Scheduled(fixedRate = 300000)
-    @Scheduled(fixedRate = 7000)
+    //@Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 300000)
     public void calcularTemperatura() {
         Random random = new Random();
         int delta = 5;
 
         heladeraRepository.findAll().stream()
-            .filter(heladera -> heladera.isActiva() && !heladerasConFallaDeConexion.contains(heladera.getId()))
-            .forEach(heladera -> {
+                .filter(heladera -> heladera.isActiva() && !heladerasConFallaDeConexion.contains(heladera.getId()))
+                .forEach(heladera -> {
 
-                double minExtremo = heladera.getTempMinAceptable() - delta;
-                double maxExtremo = heladera.getTempMaxAceptable() + delta;
-                double temperatura = Math.round(random.nextDouble((maxExtremo - minExtremo) + minExtremo) * 100.0) / 100.0;
-                heladera.setUltimaTemp(temperatura);
-                heladeraRepository.save(heladera);
-                LOGGER.info("🌡 Temperatura de la heladera {}: {}°C", heladera.getNombre(), temperatura);
-                if (temperatura < heladera.getTempMinAceptable()) {
-                    send("alerta.temperatura", "❄️ La heladera " + heladera.getNombre() + " está por debajo de la temperatura mínima aceptable.", heladera.getId());
-                } else if (temperatura > heladera.getTempMaxAceptable()) {
-                    send("alerta.temperatura", "🔥 La heladera " + heladera.getNombre() + " está por encima de la temperatura máxima aceptable.", heladera.getId());
-                }
+                    double minExtremo = heladera.getTempMinAceptable() - delta;
+                    double maxExtremo = heladera.getTempMaxAceptable() + delta;
+                    double temperatura = Math.round(random.nextDouble((maxExtremo - minExtremo) + minExtremo) * 100.0) / 100.0;
+                    heladera.setUltimaTemp(temperatura);
+                    heladeraRepository.save(heladera);
+                    LOGGER.info("🌡 Temperatura de la heladera {}: {}°C", heladera.getNombre(), temperatura);
+                    if (temperatura < heladera.getTempMinAceptable()) {
+                        send("alerta.temperatura", "❄️ La heladera " + heladera.getNombre() + " está por debajo de la temperatura mínima aceptable.", heladera.getId());
+                    } else if (temperatura > heladera.getTempMaxAceptable()) {
+                        send("alerta.temperatura", "🔥 La heladera " + heladera.getNombre() + " está por encima de la temperatura máxima aceptable.", heladera.getId());
+                    }
 
-            });
+                });
     }
 
-    //5 segundos
-    @Scheduled(fixedRate = 6000)
-    //@Scheduled(fixedRate = 350000)
-    public void fraude(){
-        Random random = new Random();
-        heladeraRepository.findAll().stream()
-            .filter( heladera -> !heladera.isActiva() && !heladerasConFraude.contains(heladera.getId()))
-            .forEach(heladera -> {
-                double probabilidad = random.nextDouble();
-                LOGGER.info("Probabilidad de fraude: {}", probabilidad);
-                if (probabilidad < 0.05) {
-                    heladerasConFraude.add(heladera.getId());
-                    send("alerta.fraude", "🚨 Se ha detectado un movimiento en la heladera cerrada " + heladera.getNombre(), heladera.getId());
-                }
-            });
-    }
-
-    //@Scheduled(fixedRate = 400000)
-    @Scheduled(fixedRate = 5000)
+    //@Scheduled(fixedRate = 7000)
+    @Scheduled(fixedRate = 350000)
     public void fallaConexion(){
         Random random = new Random();
         heladeraRepository.findAll().stream()
-            .filter(Heladera::isActiva)
-            .forEach(heladera -> {
-                double probabilidad = random.nextDouble();
-                LOGGER.info("Probabilidad de falla de conexión: {}", probabilidad);
-                if (probabilidad < 0.05) {
-                    heladerasConFallaDeConexion.add(heladera.getId());
-                    send("alerta.conexion", "🚨 Se ha detectado una falla de conexión en la heladera, no se puede calcular la temperatura de " + heladera.getNombre(), heladera.getId());
-                }
-            });
+                .filter(Heladera::isActiva)
+                .forEach(heladera -> {
+                    double probabilidad = Math.round(random.nextDouble()* 100.0) / 100.0;
+                    LOGGER.info("Probabilidad de falla de conexión: {}", probabilidad);
+                    if (probabilidad < 0.05) {
+                        heladerasConFallaDeConexion.add(heladera.getId());
+                        send("alerta.conexion", "🚨 Se ha detectado una falla de conexión en la heladera, no se puede calcular la temperatura de " + heladera.getNombre(), heladera.getId());
+                    }
+                });
+    }
+
+    //@Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 400000)
+    public void fraude(){
+        Random random = new Random();
+        heladeraRepository.findAll().stream()
+                .filter( heladera -> !heladera.isActiva() && !heladerasConFraude.contains(heladera.getId()))
+                .forEach(heladera -> {
+                    double probabilidad = Math.round(random.nextDouble()* 100.0) / 100.0;
+                    LOGGER.info("Probabilidad de fraude: {}", probabilidad);
+                    if (probabilidad < 0.025) {
+                        heladerasConFraude.add(heladera.getId());
+                        send("alerta.fraude", "🚨 Se ha detectado un movimiento en la heladera cerrada " + heladera.getNombre(), heladera.getId());
+                    }
+                });
     }
 
 }

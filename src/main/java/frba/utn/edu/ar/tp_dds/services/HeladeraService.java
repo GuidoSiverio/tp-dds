@@ -136,4 +136,8 @@ public class HeladeraService {
       });
     });
   }
+
+  public List<Incidente> getIncidentes(Long id) {
+    return heladeraRepository.findById(id).map(heladera -> heladera.getIncidentes().stream().filter(incidente -> !incidente.isEstadoResuelta()).toList()).orElseThrow();
+  }
 }

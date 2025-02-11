@@ -21,9 +21,18 @@ public class User {
   @OneToOne
   private Colaborador colaborador;
 
-  public User() {
+  @OneToOne
+  private Tecnico tecnico;
+
+  public User(String user, String password, String rol, Tecnico tecnico) {
+    this.username = user;
+    this.password = password;
+    this.rol = rol;
+    this.tecnico = tecnico;
   }
 
+  public User() {
+  }
 }
 
 

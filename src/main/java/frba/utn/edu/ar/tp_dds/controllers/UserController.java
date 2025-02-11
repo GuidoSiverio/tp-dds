@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
+import frba.utn.edu.ar.tp_dds.entities.Tecnico;
 import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.responses.LoginResponse;
@@ -23,7 +24,7 @@ public class UserController {
   public ResponseEntity<String> registerUser(@RequestBody User user) {
     try {
       userService.validarContrasenia(user.getPassword()); //L4M3j0rC0ntra4s3n4!
-      userService.save(user);
+      userService.saveColaborador(user);
       return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<>("Password validation failed: " + e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -46,18 +47,27 @@ public class UserController {
   }
 
   @PostMapping(path = "/check-colaborador", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Colaborador> checkColaborador(@RequestBody User user) {
-        Colaborador colaborador = userService.checkColaborador(user);
-        if (colaborador != null) {
-            return new ResponseEntity<>(colaborador, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null, HttpStatus.CONTINUE);
-    }
+  public ResponseEntity<Colaborador> checkColaborador(@RequestBody User user) {
+      Colaborador colaborador = userService.checkColaborador(user);
+      if (colaborador != null) {
+          return new ResponseEntity<>(colaborador, HttpStatus.OK);
+      }
+      return new ResponseEntity<>(null, HttpStatus.CONTINUE);
+  }
 
-    @GetMapping(path = "/users", produces = "application/json")
-    public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
-        Optional<User> user = userService.findByUsername(username);
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
-    }
+  @PostMapping(path = "/check-tecnico", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<Tecnico> checkTecnico(@RequestBody User user) {
+      Tecnico tecnico = userService.checkTecnico(user);
+      if (tecnico != null) {
+          return new ResponseEntity<>(tecnico, HttpStatus.OK);
+      }
+      return new ResponseEntity<>(null, HttpStatus.CONTINUE);
+  }
+
+  @GetMapping(path = "/users", produces = "application/json")
+  public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
+      Optional<User> user = userService.findByUsername(username);
+      return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+  }
 
 }

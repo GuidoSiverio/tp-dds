@@ -111,7 +111,6 @@ public abstract class Colaborador implements Suscriptor{
     } else {
       System.out.println("No se pudo notificar al colaborador " + getId() + " por medio de contacto " + medioDeContacto);
     }
-    System.out.println("Notificación para colaborador " + getId() + ": " + mensaje);
   }
 
   @Override

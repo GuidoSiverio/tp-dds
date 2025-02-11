@@ -69,9 +69,9 @@ public class ContribucionController {
         return new ResponseEntity<>(ofertas, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/contribuciones/donacion-vianda/recomendacion", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<List<Heladera>> recomendarDonaciones(@RequestParam double latitud, @RequestParam double longitud) {
-        return new ResponseEntity<>(recomendacionDonacionService.recomendarDonaciones(latitud, longitud), HttpStatus.OK);
+    @GetMapping(path = "/contribuciones/donacion-vianda/recomendaciones", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<List<Heladera>> recomendarDonaciones(@RequestParam String longitud, @RequestParam String latitud) {
+        return new ResponseEntity<>(recomendacionDonacionService.recomendarDonaciones(longitud, latitud), HttpStatus.OK);
     }
 
     @PostMapping(path = "/contribuciones/ofertas/{id}", produces = "application/json", consumes = "application/json")
