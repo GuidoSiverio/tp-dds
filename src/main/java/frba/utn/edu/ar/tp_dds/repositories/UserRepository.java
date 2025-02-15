@@ -14,7 +14,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT u FROM User u WHERE u.username = :username")
   Optional<User> findByUsername(String username);
 
-  @Modifying
-  @Query(value = "DELETE FROM User WHERE id IN (SELECT id FROM Tecnico WHERE id = ?1)", nativeQuery = true)
-  void deleteByTecnicoId(Long tecnicoId);
 }

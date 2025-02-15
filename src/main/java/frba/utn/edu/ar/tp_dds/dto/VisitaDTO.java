@@ -1,27 +1,21 @@
 package frba.utn.edu.ar.tp_dds.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class VisitaDTO {
 
     private String comentario;
     private Boolean solucionado;
+    private String imagen;
     private Long tecnicoId;
     private Long heladeraId;
     private Long incidenteId;
-
-    public VisitaDTO() {
-    }
-
-    public VisitaDTO(String comentarios, Boolean solucionado, Long tecnicoId, Long heladeraId, Long incidenteId) {
-        this.comentario = comentarios;
-        this.solucionado = solucionado;
-        this.tecnicoId = tecnicoId;
-        this.heladeraId = heladeraId;
-        this.incidenteId = incidenteId;
-    }
 
 }

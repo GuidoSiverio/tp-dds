@@ -3,6 +3,7 @@ package frba.utn.edu.ar.tp_dds.entities.colaborador;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import frba.utn.edu.ar.tp_dds.entities.Oferta;
+import frba.utn.edu.ar.tp_dds.entities.User;
 import frba.utn.edu.ar.tp_dds.entities.contribucion.Contribucion;
 import frba.utn.edu.ar.tp_dds.entities.heladera.Heladera;
 import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
@@ -60,6 +61,9 @@ public abstract class Colaborador implements Suscriptor{
   @OneToMany(mappedBy = "colaborador")
   @JsonIgnore
   private List<Oferta> ofertas;
+
+  @OneToOne
+  private User user;
 
   public Colaborador() {
   }

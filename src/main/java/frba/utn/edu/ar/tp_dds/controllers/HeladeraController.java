@@ -9,6 +9,9 @@ import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import frba.utn.edu.ar.tp_dds.services.HeladeraService;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import frba.utn.edu.ar.tp_dds.services.RecomendacionService;
@@ -16,6 +19,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin("*")
@@ -81,10 +85,23 @@ public class HeladeraController {
     return new ResponseEntity<>("Suscripción realizada correctamente!", HttpStatus.OK);
   }
 
-  @PostMapping(path = "/heladeras/{id}/incidentes", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<String> reportarIncidente(@PathVariable Long id, @RequestBody IncidenteDTO incidenteDTO) {
-    heladeraService.reportarFalla(id, incidenteDTO);
-    return new ResponseEntity<>("Incidente reportado exitosamente!", HttpStatus.OK);
+  @PostMapping(path = "/heladeras/{id}/incidentes", consumes = "multipart/form-data")
+  public ResponseEntity<String> reportarIncidente(@PathVariable Long id,
+                                                  @RequestParam("descripcion") String descripcion,
+                                                  @RequestParam("colaboradorId") Long colaboradorId,
+                                                  @RequestParam("imagen") MultipartFile imagen) {
+    try {
+      String folder = "uploads/";
+      byte[] bytes = imagen.getBytes();
+      Path path = Paths.get(folder + imagen.getOriginalFilename());
+      Files.write(path, bytes);
+
+      IncidenteDTO incidenteDTO = new IncidenteDTO(descripcion, folder + imagen.getOriginalFilename(), null, id, colaboradorId);
+      heladeraService.reportarFalla(id, incidenteDTO);
+      return new ResponseEntity<>("Incidente reportado exitosamente!", HttpStatus.OK);
+    } catch (IOException e) {
+      return new ResponseEntity<>("Error al guardar la imagen", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @GetMapping(path = "/heladeras/{id}/incidentes", produces = "application/json", consumes = "application/json")

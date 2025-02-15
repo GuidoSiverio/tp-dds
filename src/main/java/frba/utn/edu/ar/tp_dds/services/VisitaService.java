@@ -63,7 +63,4 @@ public class VisitaService {
         visitaRepository.save(visita);
     }
 
-    public void deleteVisitsByTecnicoId(Long id) {
-        visitaRepository.deleteByTecnicoId(id);
-    }
 }

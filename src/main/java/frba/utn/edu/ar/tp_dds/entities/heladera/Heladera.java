@@ -7,17 +7,12 @@ import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
 import frba.utn.edu.ar.tp_dds.services.SuscriptorService;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
 @Entity
 @Getter
@@ -69,7 +64,7 @@ public class Heladera {
     this.capacidad = heladeraDTO.getCapacidad();
     this.tempMinAceptable = Double.parseDouble(heladeraDTO.getTempMinAceptable());
     this.tempMaxAceptable = Double.parseDouble(heladeraDTO.getTempMaxAceptable());
-    this.fechaFuncionamiento = LocalDateTime.parse(heladeraDTO.getFechaFuncionamiento());
+    this.fechaFuncionamiento = LocalDateTime.now();
     this.viandas = new ArrayList<>();
     this.activa = true;
   }

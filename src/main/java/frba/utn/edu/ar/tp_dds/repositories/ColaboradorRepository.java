@@ -31,4 +31,7 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
 
     @Query("SELECT COALESCE(SUM(o.puntosNecesarios), 0) FROM Colaborador c JOIN Oferta o ON o.colaborador.id = c.id WHERE c.id = ?1")
     Double getPuntosGastados(Long id);
+
+    @Query("SELECT c FROM Colaborador c WHERE c.user.id = ?1")
+    Optional<Colaborador> findByUserId(Long id);
 }

@@ -3,8 +3,10 @@ package frba.utn.edu.ar.tp_dds.services;
 import frba.utn.edu.ar.tp_dds.dto.TecnicoDTO;
 import frba.utn.edu.ar.tp_dds.entities.Tecnico;
 import frba.utn.edu.ar.tp_dds.entities.User;
-import frba.utn.edu.ar.tp_dds.entities.Visita;
 import frba.utn.edu.ar.tp_dds.repositories.TecnicoRepository;
+import frba.utn.edu.ar.tp_dds.repositories.UserRepository;
+import frba.utn.edu.ar.tp_dds.repositories.ViandaRepository;
+import frba.utn.edu.ar.tp_dds.repositories.VisitaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +16,22 @@ public class TecnicoService {
 
     private final TecnicoRepository tecnicoRepository;
     private final UserService userService;
-    private final VisitaService visitaService;
+    private final VisitaRepository visitaRepository;
+    private final UserRepository userRepository;
 
-    public TecnicoService(TecnicoRepository tecnicoRepository, UserService userService, SuscriptorService suscriptorService, VisitaService visitaService) {
+    public TecnicoService(TecnicoRepository tecnicoRepository, UserService userService, SuscriptorService suscriptorService, VisitaRepository visitaRepository, UserRepository userRepository) {
         this.tecnicoRepository = tecnicoRepository;
         this.userService = userService;
-        this.visitaService = visitaService;
+        this.visitaRepository = visitaRepository;
+        this.userRepository = userRepository;
     }
 
     public void save(TecnicoDTO tecnicoDTO) {
-        Tecnico tecnico = new Tecnico(tecnicoDTO);
-        save(tecnico);
-        User user = new User(tecnicoDTO.getUser(), tecnicoDTO.getPassword(), "TECNICO", tecnico);
+        User user = new User(tecnicoDTO.getUser(), tecnicoDTO.getPassword(), "TECNICO");
         userService.save(user);
+        Tecnico tecnico = new Tecnico(tecnicoDTO);
+        tecnico.setUser(user);
+        save(tecnico);
     }
 
     public void save(Tecnico tecnico) {
@@ -43,9 +48,12 @@ public class TecnicoService {
     }
 
     public void delete(Long id) {
-        userService.deleteByTecnicoId(id);
-        visitaService.deleteVisitsByTecnicoId(id);
+        visitaRepository.deleteByTecnicoId(id);
+        Tecnico tecnico = tecnicoRepository.findById(id).orElse(null);
         tecnicoRepository.deleteById(id);
+        if (tecnico != null) {
+            userRepository.delete(tecnico.getUser());
+        }
     }
 
     public List<Tecnico> findAll() {

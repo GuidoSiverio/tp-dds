@@ -6,7 +6,7 @@ package frba.utn.edu.ar.tp_dds.exceptions;
 public abstract class InvalidPasswordException extends DomainException {
 
   public InvalidPasswordException(String error) {
-    super("La contraseña ingresada es invalida por : " + error, 400);
+    super("La contraseña ingresada es invalida por " + error, 400);
   }
 
 }

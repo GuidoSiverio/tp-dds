@@ -71,9 +71,6 @@ public class HeladeraService {
       if (heladeraDTO.getCapacidad() != null){
         heladera.setCapacidad(heladeraDTO.getCapacidad());
       }
-      if (heladeraDTO.getFechaFuncionamiento() != null){
-        heladera.setFechaFuncionamiento(LocalDateTime.parse(heladeraDTO.getFechaFuncionamiento()));
-      }
       save(heladera);
     }, () -> {
       throw new RuntimeException("Heladera no encontrada con id: " + id);

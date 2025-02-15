@@ -10,7 +10,6 @@ import frba.utn.edu.ar.tp_dds.services.WhatsAppService;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +36,9 @@ public class Tecnico implements Suscriptor {
     @OneToMany(mappedBy = "tecnico")
     @JsonIgnore
     private List<Visita> visitas;
+
+    @OneToOne
+    private User user;
 
     public Tecnico(TecnicoDTO tecnicoDTO) {
         this.nombre = tecnicoDTO.getNombre();

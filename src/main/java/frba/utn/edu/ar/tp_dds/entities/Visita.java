@@ -33,6 +33,7 @@ public class Visita {
         this.fechaHoraVisita = LocalDateTime.now();
         this.comentarios = visitaDTO.getComentario();
         this.estadoIncidente = visitaDTO.getSolucionado();
+        this.foto = visitaDTO.getImagen();
     }
 
     public Visita() {
