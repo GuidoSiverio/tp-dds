@@ -25,7 +25,7 @@ public class UserController {
   public ResponseEntity<String> registerUser(@RequestBody User user) {
     try {
         if (userService.checkIfExistUser(user)){
-            return new ResponseEntity<>("User already exists!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("El usuario ya existe", HttpStatus.BAD_REQUEST);
         }
         userService.validarContrasenia(user.getPassword()); //L4M3j0rC0ntra4s3n4!
         userService.saveUser(user);
@@ -48,7 +48,7 @@ public class UserController {
       return new ResponseEntity<>(response, HttpStatus.OK);
     } else {
       response.setSuccess(false);
-      response.setMessage("Invalid credentials");
+      response.setMessage("Usuario o contraseña incorrectos");
       return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
   }
