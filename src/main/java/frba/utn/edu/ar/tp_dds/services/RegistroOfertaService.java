@@ -34,4 +34,5 @@ public class RegistroOfertaService {
     private void save(RegistroOferta registroOferta) {
         registroOfertaRepository.save(registroOferta);
     }
+
 }

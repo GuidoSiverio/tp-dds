@@ -26,22 +26,20 @@ public class PersonaHumana extends Colaborador{
   protected LocalDateTime fechaNacimiento;
   protected String tipoDoc;
   protected String nroDoc;
-  protected String mail;
 
   public PersonaHumana(ColaboradorDTO colaboradorDTO) {
-    super(colaboradorDTO.getDireccion(), colaboradorDTO.getMedioDeContacto());
+    super(colaboradorDTO.getDireccion(), colaboradorDTO.getMedioDeContacto(), colaboradorDTO.getNumero(), colaboradorDTO.getEmail());
     this.nombre = colaboradorDTO.getNombre();
     this.apellido = colaboradorDTO.getApellido();
     this.fechaNacimiento = LocalDateTime.parse(colaboradorDTO.getFechaDeNacimiento());
   }
 
   public PersonaHumana(ColaboradorCsvDTO colab) {
-    super("", "EMAIL");
+    super("", "Email", "", colab.getMail());
     this.tipoDoc = colab.getTipoDoc();
-    this.nroDoc = colab.getNroDoc();
+    this.nroDoc = colab.getDocumento();
     this.nombre = colab.getNombre();
     this.apellido = colab.getApellido();
-    this.mail = colab.getMail();
   }
 
   public PersonaHumana() {

@@ -1,6 +1,5 @@
 package frba.utn.edu.ar.tp_dds.controllers;
 
-import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.dto.IncidenteDTO;
 import frba.utn.edu.ar.tp_dds.services.IncidenteService;
 import org.springframework.http.HttpStatus;

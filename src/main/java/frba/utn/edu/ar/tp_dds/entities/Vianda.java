@@ -30,7 +30,7 @@ public class Vianda {
 
   public Vianda(ViandaDTO viandaDTO) {
     this.comida = viandaDTO.getComida();
-    this.fechaCaducidad = LocalDateTime.parse(viandaDTO.getFechaCaducidad());
+    this.fechaCaducidad = LocalDateTime.parse(viandaDTO.getFechaCaducidad() + "T00:00:00");
     this.calorias = viandaDTO.getCalorias();
     this.peso = viandaDTO.getPeso();
   }

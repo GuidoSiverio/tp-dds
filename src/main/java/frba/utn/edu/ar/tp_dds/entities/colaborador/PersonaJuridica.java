@@ -22,12 +22,13 @@ public class PersonaJuridica extends Colaborador{
   protected String rubro;
 
   public PersonaJuridica(ColaboradorDTO colaboradorDTO) {
-    super(colaboradorDTO.getDireccion(), colaboradorDTO.getMedioDeContacto());
+    super(colaboradorDTO.getDireccion(), colaboradorDTO.getMedioDeContacto(), colaboradorDTO.getNumero(), colaboradorDTO.getEmail());
     this.razonSocial = colaboradorDTO.getRazonSocial();
     this.tipo = colaboradorDTO.getTipo();
     this.rubro = colaboradorDTO.getRubro();
   }
 
   public PersonaJuridica() {}
+
 
 }

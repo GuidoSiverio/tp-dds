@@ -10,23 +10,22 @@ import java.util.List;
 public class ColaboradorCsvDTO {
 
     private String tipoDoc;
-    private String nroDoc;
+    private String documento;
     private String nombre;
     private String apellido;
     private String mail;
     private String fechaColab;
     private String formaColab;
-    private String cantidad;
+    private int cantidad;
 
-
-    public ColaboradorCsvDTO(List<String> fields) {
-        this.tipoDoc = fields.get(0);
-        this.nroDoc = fields.get(1);
-        this.nombre = fields.get(2);
-        this.apellido = fields.get(3);
-        this.mail = fields.get(4);
-        this.fechaColab = fields.get(5);
-        this.formaColab = fields.get(6);
-        this.cantidad = fields.get(7);
+    public ColaboradorCsvDTO(String tipoDoc, String documento, String nombre, String apellido, String mail, String fechaColab, String formaColab, int cantidad) {
+        this.tipoDoc = tipoDoc;
+        this.documento = documento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.mail = mail;
+        this.fechaColab = fechaColab;
+        this.formaColab = formaColab;
+        this.cantidad = cantidad;
     }
 }

@@ -1,17 +1,18 @@
 package frba.utn.edu.ar.tp_dds.entities.heladera;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import frba.utn.edu.ar.tp_dds.dto.HeladeraDTO;
 import frba.utn.edu.ar.tp_dds.entities.Vianda;
 import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
 import frba.utn.edu.ar.tp_dds.entities.incidente.Incidente;
-import frba.utn.edu.ar.tp_dds.observer.Suscriptor;
+import frba.utn.edu.ar.tp_dds.services.SuscriptorService;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -37,14 +38,12 @@ public class Heladera {
   private Double tempMaxAceptable;
   private Double ultimaTemp;
 
-  @Transient
-  private List<Suscriptor> suscriptores = new ArrayList<>();
-
   @ManyToOne
-  @JoinColumn(name = "colaborador_id", insertable = false, updatable = false)
+  @JoinColumn(name = "colaborador_id")
   private Colaborador colaborador;
 
   @OneToMany(mappedBy = "heladera", cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<Incidente> incidentes;
 
   public void ingresarVianda(Vianda vianda) {
@@ -54,6 +53,7 @@ public class Heladera {
   public void registrar(Incidente incidente){
     this.incidentes.add(incidente);
     incidente.setHeladera(this);
+    this.setActiva(false);
   }
 
   public Heladera(HeladeraDTO heladeraDTO) {
@@ -62,8 +62,11 @@ public class Heladera {
     this.direccion = heladeraDTO.getDireccion();
     this.nombre = heladeraDTO.getNombre();
     this.capacidad = heladeraDTO.getCapacidad();
-    this.fechaFuncionamiento = LocalDateTime.parse(heladeraDTO.getFechaFuncionamiento());
+    this.tempMinAceptable = Double.parseDouble(heladeraDTO.getTempMinAceptable());
+    this.tempMaxAceptable = Double.parseDouble(heladeraDTO.getTempMaxAceptable());
+    this.fechaFuncionamiento = LocalDateTime.now();
     this.viandas = new ArrayList<>();
+    this.activa = true;
   }
 
   public Heladera() {
@@ -73,34 +76,38 @@ public class Heladera {
     return activa;
   }
 
-  public void agregarSuscripcion(Suscriptor suscriptor) {
-    suscriptores.add(suscriptor);
-  }
-
-  public void removerSuscripcion(Suscriptor suscriptor) {
-    suscriptores.remove(suscriptor);
-  }
-
-  public void notificarEvento(String mensaje) {
-    for (Suscriptor suscriptor : suscriptores) {
-      suscriptor.notificar(mensaje);
+  public void notificarEvento(SuscriptorService suscriptorService, String mensaje) {
+    if (suscriptorService != null) {
+      suscriptorService.notificarSuscriptores(this.id, mensaje);
     }
   }
 
-  public void verificarCondicion(int viandasRestantesParaNotificar, int viandasFaltantesParaLlenar, boolean notificarDesperfectos) {
-    if (viandasRestantesParaNotificar > 0 && getViandas().size() <= viandasRestantesParaNotificar) {
-      notificarEvento("Quedan pocas viandas en la heladera: " + nombre);
-    }
-    if (viandasFaltantesParaLlenar > 0 && (getCapacidad() - getViandas().size()) <= viandasFaltantesParaLlenar) {
-      notificarEvento("Faltan pocas viandas para llenar la heladera: " + nombre);
-    }
-    if (notificarDesperfectos && heladeraSufrioDesperfecto()) {
-      notificarEvento("La heladera " + nombre + " sufrió un desperfecto.");
-    }
-  }
+//  public void verificarCondicion(int viandasRestantesParaNotificar, int viandasFaltantesParaLlenar, boolean notificarDesperfectos) {
+//    if (viandasRestantesParaNotificar > 0 && getViandas().size() <= viandasRestantesParaNotificar) {
+//      notificarEvento("Quedan pocas viandas en la heladera: " + nombre);
+//    }
+//    if (viandasFaltantesParaLlenar > 0 && (getCapacidad() - getViandas().size()) <= viandasFaltantesParaLlenar) {
+//      notificarEvento("Faltan pocas viandas para llenar la heladera: " + nombre);
+//    }
+//    if (notificarDesperfectos && heladeraSufrioDesperfecto()) {
+//      notificarEvento("La heladera " + nombre + " sufrió un desperfecto.");
+//    }
+//  }
 
-  private boolean heladeraSufrioDesperfecto() {
-    // Implementa la lógica para verificar desperfectos.
-    return false;
-  }
+
+//  @Scheduled(cron = "0 */5 * * * *")
+//  public void enviarTemperatura() {
+//    Random random = new Random();
+//    int delta = 5;
+//    double minExtremo = this.tempMinAceptable - delta;
+//    double maxExtremo = this.tempMaxAceptable + delta;
+//    double temperatura = random.nextDouble((maxExtremo - minExtremo) + minExtremo);
+//    System.out.println("🌡 Temperatura de la heladera " + this.nombre + ": " + temperatura + "°C");
+//    String mensaje = "Heladera " + this.nombre + " - Temperatura: " + temperatura + "°C";
+//
+//    System.out.println("📡 Enviando mensaje: " + mensaje);
+//    amqpTemplate.convertAndSend("temperaturas", mensaje);
+//  }
+
+
 }

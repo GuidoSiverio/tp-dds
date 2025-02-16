@@ -9,5 +9,6 @@ public class TarjetaDTO {
 
     private String codigo;
     private boolean asignada;
+    private Long colaboradorId;
 
 }

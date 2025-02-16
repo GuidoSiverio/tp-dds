@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Setter
 public class DonacionDineroDTO {
 
-    private LocalDateTime fechaDonacion;
     private Double monto;
     private String frecuencia;
     private boolean formaPeriodica;

@@ -1,5 +1,6 @@
 package frba.utn.edu.ar.tp_dds.entities;
 
+import frba.utn.edu.ar.tp_dds.repositories.ColaboradorRepository;
 import frba.utn.edu.ar.tp_dds.services.*;
 import org.hibernate.internal.build.AllowNonPortable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class Reconocimiento {
     private final DonacionViandaService donacionViandaService;
     private final TarjetaService tarjetaService;
     private final HeladeraService heladeraService;
+    private final ColaboradorRepository colaboradorRepository;
 
     @Autowired
     public Reconocimiento(
@@ -28,13 +30,14 @@ public class Reconocimiento {
             DistribucionViandaService distribucionViandaService,
             DonacionViandaService donacionViandaService,
             TarjetaService tarjetaService,
-            HeladeraService heladeraService) {
+            HeladeraService heladeraService, ColaboradorRepository colaboradorRepository) {
 
         this.donacionDineroService = donacionDineroService;
         this.distribucionViandaService = distribucionViandaService;
         this.donacionViandaService = donacionViandaService;
         this.tarjetaService = tarjetaService;
         this.heladeraService = heladeraService;
+        this.colaboradorRepository = colaboradorRepository;
     }
 
     public Double getPoints(Long id) {
@@ -52,7 +55,9 @@ public class Reconocimiento {
                 + (tarjetasRepartidas * TARJETAS_REPARTIDAS_COEF)
                 + (heladerasActivas * sumMesesActivas * HELADERAS_ACTIVAS_COEF);
 
-        return totalPoints;
+        Double puntosGastados = colaboradorRepository.getPuntosGastados(id);
+
+        return totalPoints - puntosGastados;
     }
 
     private Double safeGetValue(Supplier<Double> supplier) {

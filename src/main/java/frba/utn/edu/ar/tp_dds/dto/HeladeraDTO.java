@@ -12,6 +12,10 @@ public class HeladeraDTO {
     private String direccion;
     private String nombre;
     private Integer capacidad;
-    private String fechaFuncionamiento;
+    private String radio;
+    private String lugarRecomendado;
+    private String tempMinAceptable;
+    private String tempMaxAceptable;
+    private Long colaboradorId;
 
 }

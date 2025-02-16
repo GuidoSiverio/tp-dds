@@ -23,4 +23,9 @@ public class Alerta extends Incidente {
 
     public Alerta() {
     }
+
+    public Alerta(String tipoAlerta) {
+        super(LocalDateTime.now(), false);
+        this.tipoAlerta = tipoAlerta;
+    }
 }

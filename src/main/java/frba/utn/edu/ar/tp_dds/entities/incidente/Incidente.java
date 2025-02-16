@@ -52,13 +52,4 @@ public abstract class Incidente {
         visita.setIncidente(this);
     }
 
-    public void agregarObservador(Suscriptor suscriptor) {
-        suscriptores.add(suscriptor);
-    }
-
-    public void notificar() {
-        for (Suscriptor suscriptor : suscriptores) {
-            suscriptor.notificar(this);
-        }
-    }
 }

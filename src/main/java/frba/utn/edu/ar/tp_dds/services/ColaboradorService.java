@@ -108,42 +108,25 @@ public class ColaboradorService {
         return campo == null || campo.isEmpty();
     }
 
-    public void saveAllFromCsv(MultipartFile file) throws Exception {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-            List<ColaboradorCsvDTO> colaboradorCsvDTOs = reader.lines()
-                    .skip(1) // Skip header
-                    .map(this::parseCsvLineToColaboradorCsvDTO)
-                    .toList();
+    public void saveAllFromCsv(List<ColaboradorCsvDTO> file) throws Exception {
 
-            colaboradorCsvDTOs.forEach(colab -> {
-                if (findByNroDoc(colab.getNroDoc()).isPresent()) {
-                    agregarContribuciones(colab);
-                } else {
-                    parseCsvLineToColaborador(colab);
-                }
-            });
+        file.forEach(colab -> {
+            if (findByNroDoc(colab.getDocumento()).isEmpty()) {
+                PersonaHumana personaHumana = new PersonaHumana(colab);
+                save(personaHumana);
+            }
+            agregarContribuciones(colab);
+        });
 
-        }
     }
 
     private Optional<Colaborador> findByNroDoc(String nroDoc) {
         return colaboradorRepository.findByNroDoc(nroDoc);
     }
 
-    private ColaboradorCsvDTO parseCsvLineToColaboradorCsvDTO(String line) {
-        List<String> fields = List.of(line.split(","));
-        return new ColaboradorCsvDTO(fields);
-    }
-
-
-    private void parseCsvLineToColaborador(ColaboradorCsvDTO colab) {
-        PersonaHumana personaHumana = new PersonaHumana(colab);
-        save(personaHumana);
-    }
-
     private void agregarContribuciones(ColaboradorCsvDTO colab) {
-        Colaborador colaborador = findByNroDoc(colab.getNroDoc()).get();
-        for (int i = 0; i < Integer.parseInt(colab.getCantidad()) ; i++) {
+        Colaborador colaborador = findByNroDoc(colab.getDocumento()).get();
+        for (int i = 0; i < colab.getCantidad() ; i++) {
             switch (colab.getFormaColab()){
                 case "Donacion Dinero":
                     DonacionDinero donacionDinero = new DonacionDinero();

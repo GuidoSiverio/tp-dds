@@ -53,7 +53,8 @@ public class IncidenteService {
         save(incidente);
     }
 
-    private void save(Incidente incidente) {
+    public void save(Incidente incidente) {
         incidenteRepository.save(incidente);
     }
+
 }

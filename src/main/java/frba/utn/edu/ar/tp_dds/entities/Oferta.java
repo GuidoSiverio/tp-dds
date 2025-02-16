@@ -1,10 +1,8 @@
 package frba.utn.edu.ar.tp_dds.entities;
 
 import frba.utn.edu.ar.tp_dds.dto.OfertaDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import frba.utn.edu.ar.tp_dds.entities.colaborador.Colaborador;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +18,10 @@ public class Oferta {
     private String rubro;
     private Double puntosNecesarios;
     private String imagen;
+
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id")
+    private Colaborador colaborador;
 
     public Oferta(OfertaDTO ofertaDTO) {
         this.nombre = ofertaDTO.getNombre();
