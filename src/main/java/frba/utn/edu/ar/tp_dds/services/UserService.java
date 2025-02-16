@@ -29,7 +29,7 @@ public class UserService {
   }
 
   public void saveUser(User user) {
-    if (user.getRol() != null) {
+    if (user.getRol() == null) {
       user.setRol("COLABORADOR");
     }
     save(user);

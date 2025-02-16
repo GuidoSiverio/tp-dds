@@ -20,8 +20,8 @@ public interface HeladeraRepository extends JpaRepository<Heladera, Long> {
     @Query("SELECT COUNT(h) FROM Heladera h WHERE h.colaborador.id = ?1")
     Double getSumMesesActivas(Long id);
 
-    @Query(value = "SELECT CONCAT(h.nombre, ' - ', h.direccion) AS heladera, count(i.id) AS cantidadFallas FROM heladera h \n" +
-            "LEFT JOIN incidente i ON h.id = i.heladera_id WHERE i.dtype = 'Falla'\n" +
+    @Query(value = "SELECT CONCAT(h.nombre, ' - ', h.direccion) AS heladera, COALESCE(count(i.id), 0) AS cantidadFallas FROM heladera h \n" +
+            "LEFT JOIN incidente i ON h.id = i.heladera_id AND i.dtype = 'Falla'\n" +
             "GROUP BY h.nombre, h.direccion;", nativeQuery = true)
     List<Object[]> fallasPorHeladera();
 
